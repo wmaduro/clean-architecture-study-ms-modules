@@ -12,7 +12,7 @@ The same content described at https://github.com/wmaduro/clean-architecture-stud
 
 The same content described at https://github.com/wmaduro/clean-architecture-study/tree/master-sync.
 
-# Episode II: Service/DTO Model (EventBus) 
+# Episode III: Microservices 
 
 The main idea is to breakdown the problem above in small units (Services). Each unit produces its output object (DTO) and post it as an event in the EventBus. 
 
