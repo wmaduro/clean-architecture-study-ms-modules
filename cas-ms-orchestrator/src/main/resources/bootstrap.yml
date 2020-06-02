@@ -1,0 +1,1 @@
+server:  port: 20003      logging:  pattern:    console: '- %msg%n'  path: logs  file: ${logging.path}/log.log  level:    ROOT: INFO    com.frwk: DEBUG    org.hibernate.SQL: ERROR    org.hibernate.type.descriptor.sql.BasicBinder: ERROR    org.springframework.web: WARN    org.springframework.boot: WARN    org.springframework.security: WARN     
