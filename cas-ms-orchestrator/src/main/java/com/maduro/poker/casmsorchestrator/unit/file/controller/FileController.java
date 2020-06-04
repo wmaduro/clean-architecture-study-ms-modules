@@ -1,33 +1,24 @@
-package com.maduro.poker.casmsorchestrator.controller.unit.file;
+package com.maduro.poker.casmsorchestrator.unit.file.controller;
 
-import java.nio.file.Path;
-import java.util.UUID;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.maduro.poker.casmsorchestrator.unit.orchestrator.service.OrchestratorService;
+
 @RestController
 @RequestMapping(path = "/file")
 public class FileController {
 
+	@Autowired
+	private OrchestratorService orchestratorService;
+
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void processFoto(MultipartFile file) {
-
-		var nomeArquivo = UUID.randomUUID().toString() + "_" + file.getName();
-
-		var arquivoFoto = Path.of("/home/maduro/lixo/lixo", nomeArquivo);
-
-		System.out.println(arquivoFoto);
-
-		try {
-			file.transferTo(arquivoFoto);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
+		orchestratorService.processFile(file);
 	}
 
 }
