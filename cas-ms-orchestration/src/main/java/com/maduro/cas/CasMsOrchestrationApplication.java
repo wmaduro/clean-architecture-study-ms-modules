@@ -1,13 +1,13 @@
-package com.maduro.poker.casmsorchestrator;
+package com.maduro.cas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CasMsOrchestratorApplication {
+public class CasMsOrchestrationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CasMsOrchestratorApplication.class, args);
+		SpringApplication.run(CasMsOrchestrationApplication.class, args);
 	}
 
 }

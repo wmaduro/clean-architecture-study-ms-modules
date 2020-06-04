@@ -1,8 +1,8 @@
-package com.maduro.poker.casmsorchestrator.unit.orchestrator.repository;
+package com.maduro.cas.unit.orchestration.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.maduro.poker.casmsorchestrator.unit.orchestrator.domain.Orchestration;
+import com.maduro.cas.unit.orchestration.domain.Orchestration;
 
 public interface OrchestrationRepository 
 	extends JpaRepository<Orchestration, Long> {

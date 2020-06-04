@@ -1,4 +1,4 @@
-package com.maduro.poker.casmsorchestrator.unit.orchestrator.domain;
+package com.maduro.cas.unit.orchestration.domain;
 
 import java.io.Serializable;
 

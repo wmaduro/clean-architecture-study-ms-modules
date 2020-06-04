@@ -1,4 +1,4 @@
-package com.maduro.poker.casmsorchestrator.core;
+package com.maduro.cas.core;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

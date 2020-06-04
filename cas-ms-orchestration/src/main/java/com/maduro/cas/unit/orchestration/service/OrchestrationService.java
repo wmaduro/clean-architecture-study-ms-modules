@@ -1,4 +1,4 @@
-package com.maduro.poker.casmsorchestrator.unit.orchestrator.service;
+package com.maduro.cas.unit.orchestration.service;
 
 import java.nio.file.Path;
 import java.util.UUID;
@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maduro.poker.casmsorchestrator.unit.orchestrator.domain.Orchestration;
-import com.maduro.poker.casmsorchestrator.unit.orchestrator.repository.OrchestrationRepository;
+import com.maduro.cas.unit.orchestration.domain.Orchestration;
+import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
 
 @Service
-public class OrchestratorService {
+public class OrchestrationService {
 
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
