@@ -1,4 +1,4 @@
-package com.maduro.poker.casmsorchestrator.controller;
+package com.maduro.poker.casmsorchestrator.controller.unit.teste;
 
 import java.util.List;
 
