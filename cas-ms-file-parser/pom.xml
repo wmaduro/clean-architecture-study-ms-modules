@@ -8,21 +8,62 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.maduro.poker</groupId>
+	<groupId>com.maduro.cas</groupId>
 	<artifactId>cas-ms-file-parser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cas-ms-file-parser</name>
 	<description>Demo project for Spring Boot</description>
 
-	<properties>
-		<java.version>1.8</java.version>
+		<properties>
+<!-- 		<modelmapper.version>2.3.0</modelmapper.version> -->
+		<java.version>13</java.version>
+		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+<!-- 		<postgresql.version>42.2.12</postgresql.version> -->
 	</properties>
 
 	<dependencies>
+
+	<!-- 	<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+		</dependency> -->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.modelmapper</groupId> -->
+<!-- 			<artifactId>modelmapper</artifactId> -->
+<!-- 			<version>${modelmapper.version}</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-starter-webflux</artifactId> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -35,7 +76,20 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
