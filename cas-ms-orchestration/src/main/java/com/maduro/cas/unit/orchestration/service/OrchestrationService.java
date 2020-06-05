@@ -1,7 +1,10 @@
 package com.maduro.cas.unit.orchestration.service;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,16 @@ public class OrchestrationService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<String> getFileList() {
+		 
+		 return orchestratorRepository
+		 	.findAll()
+		 	.stream()
+		 	.map(orchestration -> orchestration.getFilePath())
+		 	.collect(Collectors.toList());
+		
 	}
 
 }
