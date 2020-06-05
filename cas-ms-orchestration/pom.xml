@@ -9,7 +9,7 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.maduro.poker</groupId>
+	<groupId>com.maduro.cas</groupId>
 	<artifactId>cas-ms-orchestrator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cas-ms-orchestrator</name>
@@ -19,17 +19,26 @@
 		<modelmapper.version>2.3.0</modelmapper.version>
 		<java.version>13</java.version>
 		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
-<!-- 		<postgresql.version>42.2.12</postgresql.version> -->
+		<!-- <postgresql.version>42.2.12</postgresql.version> -->
 	</properties>
 
 	<dependencies>
 
-	<!-- 	<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql.version}</version>
-		</dependency> -->
-		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.projectreactor</groupId> -->
+		<!-- <artifactId>reactor-spring</artifactId> -->
+		<!-- <version>1.0.1.RELEASE</version> -->
+		<!-- </dependency> -->
+
+
+		<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+			<version>${postgresql.version}</version> </dependency> -->
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -62,10 +71,10 @@
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-starter-web</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- <dependency> -->
 		<!-- <groupId>org.springframework.boot</groupId> -->
