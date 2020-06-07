@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 
 import com.maduro.cas.unit.orchestration.domain.Orchestration;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
+import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
 
@@ -28,29 +29,40 @@ public class OrchestrationService {
 	public void processFile(MultipartFile file) {
 
 		try {
-
-//			var fileName = UUID.randomUUID().toString() + "_" + file.getName();
-//			Path pathFile = Path.of("/home/maduro/lixo/lixo", fileName);
-//
-//			// save file
-//			file.transferTo(pathFile);
-			
-			
-			//Store the file
 					
 			Long idStorageReference = saveStorage(file.getBytes());
 			
 			// save db
 			orchestratorRepository.save(new Orchestration(null,idStorageReference.toString()));
 			
-			
 			//process File Parser endpoint
 			FileParserDTO fileParserDTO = processFileParser(idStorageReference.toString());
 			System.out.println(fileParserDTO);
-
+			
+			HandMapperDTO handMapperDTO = processHandMapper(fileParserDTO);
+			System.out.println(handMapperDTO.getHandDataModelMap().toString());
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+private HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
+		
+	HandMapperDTO response =  WebClient
+		  .builder()
+		  .baseUrl("http://localhost:20006")
+		  .build()
+		  .method(HttpMethod.POST)
+		  .uri("/hand-mapper")
+		  .body(BodyInserters.fromValue(fileParserDTO))
+		  .retrieve()
+		  .bodyToMono(HandMapperDTO.class)
+		  .block()
+		  ;
+		 
+//		System.out.println("processFileParser: "+response);
+		 return response;
 	}
 	
 	private Long saveStorage(byte[] content) {
