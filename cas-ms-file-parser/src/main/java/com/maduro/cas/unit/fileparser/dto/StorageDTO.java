@@ -2,10 +2,10 @@ package com.maduro.cas.unit.fileparser.dto;
 
 import lombok.Getter;
 
-public class FileDTO {
+public class StorageDTO {
 
 	@Getter
-	private String uriFile = null;
+	private String fileReference = null;
 
 
 }
