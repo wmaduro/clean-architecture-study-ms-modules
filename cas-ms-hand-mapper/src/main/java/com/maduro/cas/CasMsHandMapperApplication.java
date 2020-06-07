@@ -1,4 +1,4 @@
-package com.maduro.poker.casmshandmapper;
+package com.maduro.cas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
