@@ -12,8 +12,6 @@
 	<groupId>com.maduro.cas</groupId>
 	<artifactId>cas-ms-hand-evaluator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cas-ms-file-parser</name>
-	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<!-- <modelmapper.version>2.3.0</modelmapper.version> -->
@@ -108,6 +106,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
