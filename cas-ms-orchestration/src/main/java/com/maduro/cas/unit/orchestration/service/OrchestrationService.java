@@ -16,36 +16,36 @@ import com.maduro.cas.unit.orchestration.service.network.RequestHelper;
 
 @Service
 public class OrchestrationService {
-	
+
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
 
 	@Autowired
 	private RequestHelper requestHelper;
-	
+
 	public OrchestrationDTO processFile(MultipartFile file) throws IOException {
 
-							
-			Long idStorageReference = requestHelper.saveStorage(file.getBytes());
-			
-			Orchestration orchestration = orchestratorRepository.save(new Orchestration(null,idStorageReference.toString(), null));
-			
-			FileParserDTO fileParserDTO = requestHelper.processFileParser(idStorageReference.toString());
-			
-			HandMapperDTO handMapperDTO = requestHelper.processHandMapper(fileParserDTO);
-			
-			HandEvaluatorDTO handEvaluatorDTO = requestHelper.processHandEvaluator(handMapperDTO);
-			
-			saveResult(orchestration, handEvaluatorDTO);
-			
-			return OrchestrationDTO.builder().id(orchestration.getId().toString()).build();
-		
-		}
-	
+		Long idStorageReference = requestHelper.saveStorage(file.getBytes());
+
+		Orchestration orchestration = orchestratorRepository
+				.save(new Orchestration(null, idStorageReference.toString(), null));
+
+		FileParserDTO fileParserDTO = requestHelper.processFileParser(idStorageReference.toString());
+
+		HandMapperDTO handMapperDTO = requestHelper.processHandMapper(fileParserDTO);
+
+		HandEvaluatorDTO handEvaluatorDTO = requestHelper.processHandEvaluator(handMapperDTO);
+
+		saveResult(orchestration, handEvaluatorDTO);
+
+		return OrchestrationDTO.builder().id(orchestration.getId().toString()).build();
+
+	}
+
 	private void saveResult(Orchestration orchestration, HandEvaluatorDTO handEvaluatorDTO) {
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		handEvaluatorDTO.getGameCrititalHandDataModelList().stream().forEach(gameCrititalHandDataModel -> {
 			String data = gameCrititalHandDataModel.getGameCode() + " | "
 					+ gameCrititalHandDataModel.getCriticalHandOutcomeEnum();
@@ -56,11 +56,5 @@ public class OrchestrationService {
 		orchestration.setResult(sb.toString());
 		orchestratorRepository.save(orchestration);
 	}
-	
-	
-	
-	
-	
-
 
 }
