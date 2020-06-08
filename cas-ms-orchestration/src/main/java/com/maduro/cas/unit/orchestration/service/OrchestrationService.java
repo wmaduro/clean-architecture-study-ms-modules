@@ -4,17 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 
 import com.maduro.cas.unit.orchestration.domain.Orchestration;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
+import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
@@ -37,17 +35,38 @@ public class OrchestrationService {
 			
 			//process File Parser endpoint
 			FileParserDTO fileParserDTO = processFileParser(idStorageReference.toString());
-			System.out.println(fileParserDTO);
+//			System.out.println(fileParserDTO);
 			
 			HandMapperDTO handMapperDTO = processHandMapper(fileParserDTO);
-			System.out.println(handMapperDTO.getHandDataModelMap().toString());
+//			System.out.println(handMapperDTO.getHandDataModelMap().toString());
+			
+			HandEvaluatorDTO handEvaluatorDTO = processHandEvaluator(handMapperDTO);
+			System.out.println(handEvaluatorDTO.getGameCrititalHandDataModelList().toString());
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-private HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
+	private HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) {
+		
+		HandEvaluatorDTO response =  WebClient
+			  .builder()
+			  .baseUrl("http://localhost:20007")
+			  .build()
+			  .method(HttpMethod.POST)
+			  .uri("/hand-evaluator")
+			  .body(BodyInserters.fromValue(handMapperDTO))
+			  .retrieve()
+			  .bodyToMono(HandEvaluatorDTO.class)
+			  .block()
+			  ;
+			 
+//			System.out.println("processFileParser: "+response);
+			 return response;
+		}
+	
+	private HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
 		
 	HandMapperDTO response =  WebClient
 		  .builder()
