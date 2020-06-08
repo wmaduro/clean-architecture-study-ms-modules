@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,5 +30,8 @@ public class Orchestration implements Serializable {
 	
 	@Column(nullable = false)
 	private String filePath;
+	
+	@Lob
+	private String result;
 
 }

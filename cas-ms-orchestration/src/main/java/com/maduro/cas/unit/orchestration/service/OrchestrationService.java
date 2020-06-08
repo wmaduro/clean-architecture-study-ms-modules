@@ -1,156 +1,65 @@
 package com.maduro.cas.unit.orchestration.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.maduro.cas.unit.orchestration.domain.Orchestration;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
-import com.maduro.cas.unit.orchestration.dto.StorageDTO;
+import com.maduro.cas.unit.orchestration.dto.OrchestrationDTO;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
+import com.maduro.cas.unit.orchestration.service.network.RequestHelper;
 
 @Service
 public class OrchestrationService {
 	
-
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
 
-	public void processFile(MultipartFile file) {
+	public OrchestrationDTO processFile(MultipartFile file) {
 
 		try {
 					
-			Long idStorageReference = saveStorage(file.getBytes());
+			Long idStorageReference = RequestHelper.saveStorage(file.getBytes());
 			
-			// save db
-			orchestratorRepository.save(new Orchestration(null,idStorageReference.toString()));
+			Orchestration orchestration = orchestratorRepository.save(new Orchestration(null,idStorageReference.toString(), null));
 			
-			//process File Parser endpoint
-			FileParserDTO fileParserDTO = processFileParser(idStorageReference.toString());
-//			System.out.println(fileParserDTO);
+			FileParserDTO fileParserDTO = RequestHelper.processFileParser(idStorageReference.toString());
 			
-			HandMapperDTO handMapperDTO = processHandMapper(fileParserDTO);
-//			System.out.println(handMapperDTO.getHandDataModelMap().toString());
+			HandMapperDTO handMapperDTO = RequestHelper.processHandMapper(fileParserDTO);
 			
-			HandEvaluatorDTO handEvaluatorDTO = processHandEvaluator(handMapperDTO);
-			System.out.println(handEvaluatorDTO.getGameCrititalHandDataModelList().toString());
+			HandEvaluatorDTO handEvaluatorDTO = RequestHelper.processHandEvaluator(handMapperDTO);
 			
+			saveResult(orchestration, handEvaluatorDTO);
+			
+			return OrchestrationDTO.builder().id(orchestration.getId().toString()).build();
+		
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	private HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) {
+	private void saveResult(Orchestration orchestration, HandEvaluatorDTO handEvaluatorDTO) {
 		
-		HandEvaluatorDTO response =  WebClient
-			  .builder()
-			  .baseUrl("http://localhost:20007")
-			  .build()
-			  .method(HttpMethod.POST)
-			  .uri("/hand-evaluator")
-			  .body(BodyInserters.fromValue(handMapperDTO))
-			  .retrieve()
-			  .bodyToMono(HandEvaluatorDTO.class)
-			  .block()
-			  ;
-			 
-//			System.out.println("processFileParser: "+response);
-			 return response;
-		}
-	
-	private HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
+		StringBuilder sb = new StringBuilder();
 		
-	HandMapperDTO response =  WebClient
-		  .builder()
-		  .baseUrl("http://localhost:20006")
-		  .build()
-		  .method(HttpMethod.POST)
-		  .uri("/hand-mapper")
-		  .body(BodyInserters.fromValue(fileParserDTO))
-		  .retrieve()
-		  .bodyToMono(HandMapperDTO.class)
-		  .block()
-		  ;
-		 
-//		System.out.println("processFileParser: "+response);
-		 return response;
-	}
-	
-	private Long saveStorage(byte[] content) {
-		
-		Long response =  WebClient
-				  .builder()
-				  .baseUrl("http://localhost:20005")
-				  .build()
-				  .method(HttpMethod.POST)
-				  .uri("/file-content")
-				  .body(BodyInserters.fromValue(content))
-				  .retrieve()
-				  .bodyToMono(Long.class)
-				  .block()
-				  ;
-		return response;
-	}
-	
-	
-	
-	private FileParserDTO processFileParser(String fileReference) {
-		
-		FileParserDTO response =  WebClient
-		  .builder()
-		  .baseUrl("http://localhost:20004")
-		  .build()
-		  .method(HttpMethod.POST)
-		  .uri("/file-parser")
-		  .body(BodyInserters.fromValue(new StorageDTO(fileReference)))
-		  .retrieve()
-		  .bodyToMono(FileParserDTO.class)
-		  .block()
-		  ;
-		 
-//		System.out.println("processFileParser: "+response);
-		 return response;
-	}
-	
-//	private FileParserDTO processFileParser(String uriFile) {
-//		
-//		WebClient webClient = WebClient
-//				  .builder()
-//				   .baseUrl("http://localhost:20004")
-//				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-////				  .defaultUriVariables(Collections.singletonMap("url", "http://localhost:8080"))
-//				  .build();
-//		
-//		WebClient.RequestBodySpec uriRoot  = webClient
-//			.method(HttpMethod.POST).uri("/file-parser");
-//		
-//		RequestHeadersSpec<?> requestSpec =
-//				uriRoot.body(BodyInserters.fromValue(new FileDTO(uriFile)));
-//		
-//		String response = 
-//				requestSpec.retrieve().bodyToMono(String.class).block();
-//		
-//		System.out.println("response: "+response);
-//		
-//		return null;
-//	}
+		handEvaluatorDTO.getGameCrititalHandDataModelList().stream().forEach(gameCrititalHandDataModel -> {
+			String data = gameCrititalHandDataModel.getGameCode() + " | "
+					+ gameCrititalHandDataModel.getCriticalHandOutcomeEnum();
+			data += ", ";
+			sb.append(data);
+		});
 
-	public List<String> getFileList() {
-		 
-		 return orchestratorRepository
-		 	.findAll()
-		 	.stream()
-		 	.map(orchestration -> orchestration.getFilePath())
-		 	.collect(Collectors.toList());
-		
+		orchestration.setResult(sb.toString());
+		orchestratorRepository.save(orchestration);
 	}
+	
+	
+	
+	
+	
+
 
 }
