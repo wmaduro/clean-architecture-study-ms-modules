@@ -1,5 +1,7 @@
 package com.maduro.cas.unit.orchestration.service;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,28 +20,27 @@ public class OrchestrationService {
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
 
-	public OrchestrationDTO processFile(MultipartFile file) {
+	@Autowired
+	private RequestHelper requestHelper;
+	
+	public OrchestrationDTO processFile(MultipartFile file) throws IOException {
 
-		try {
-					
-			Long idStorageReference = RequestHelper.saveStorage(file.getBytes());
+							
+			Long idStorageReference = requestHelper.saveStorage(file.getBytes());
 			
 			Orchestration orchestration = orchestratorRepository.save(new Orchestration(null,idStorageReference.toString(), null));
 			
-			FileParserDTO fileParserDTO = RequestHelper.processFileParser(idStorageReference.toString());
+			FileParserDTO fileParserDTO = requestHelper.processFileParser(idStorageReference.toString());
 			
-			HandMapperDTO handMapperDTO = RequestHelper.processHandMapper(fileParserDTO);
+			HandMapperDTO handMapperDTO = requestHelper.processHandMapper(fileParserDTO);
 			
-			HandEvaluatorDTO handEvaluatorDTO = RequestHelper.processHandEvaluator(handMapperDTO);
+			HandEvaluatorDTO handEvaluatorDTO = requestHelper.processHandEvaluator(handMapperDTO);
 			
 			saveResult(orchestration, handEvaluatorDTO);
 			
 			return OrchestrationDTO.builder().id(orchestration.getId().toString()).build();
 		
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
-	}
 	
 	private void saveResult(Orchestration orchestration, HandEvaluatorDTO handEvaluatorDTO) {
 		

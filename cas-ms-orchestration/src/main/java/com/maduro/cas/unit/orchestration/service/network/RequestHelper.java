@@ -1,6 +1,11 @@
 package com.maduro.cas.unit.orchestration.service.network;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -9,13 +14,27 @@ import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
 
+@Component
 public class RequestHelper {
 	
-	public static Long saveStorage(byte[] content) {
-				
+	@Value(value = "${cas-ms.protocol}")
+	private String protocol;
+	@Value(value = "${cas-ms.host}")
+	private String host;
+	@Value(value = "${cas-ms.service.storage.port}")
+	private String storagePort;
+	@Value(value = "${cas-ms.service.hand-evaluator.port}")
+	private String handEvaluatorPort;
+	@Value(value = "${cas-ms.service.hand-mapper.port}")
+	private String handMapperPort;
+	@Value(value = "${cas-ms.service.file-parser.port}")
+	private String fileparserPort;
+		
+	public Long saveStorage(byte[] content) throws MalformedURLException {
+		
 		return  WebClient
 				  .builder()
-				  .baseUrl("http://localhost:20005")
+				  .baseUrl(new URL(protocol, host, Integer.parseInt(storagePort), "").toString())
 				  .build()
 				  .method(HttpMethod.POST)
 				  .uri("/file-content")
@@ -26,11 +45,11 @@ public class RequestHelper {
 
 	}
 	
-	public static HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) {
+	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) throws NumberFormatException, MalformedURLException {
 		
 		return WebClient
 			  .builder()
-			  .baseUrl("http://localhost:20007")
+			  .baseUrl(new URL(protocol, host, Integer.parseInt(handEvaluatorPort), "").toString())
 			  .build()
 			  .method(HttpMethod.POST)
 			  .uri("/hand-evaluator")
@@ -40,11 +59,11 @@ public class RequestHelper {
 			  .block();
 	}
 	
-	public static HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
+	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) throws NumberFormatException, MalformedURLException {
 		
 		return  WebClient
 		  .builder()
-		  .baseUrl("http://localhost:20006")
+		  .baseUrl(new URL(protocol, host, Integer.parseInt(handMapperPort), "").toString())
 		  .build()
 		  .method(HttpMethod.POST)
 		  .uri("/hand-mapper")
@@ -56,11 +75,11 @@ public class RequestHelper {
 	}
 	
 	
-	public static FileParserDTO processFileParser(String fileReference) {
+	public FileParserDTO processFileParser(String fileReference) throws NumberFormatException, MalformedURLException {
 		
 		return  WebClient
 		  .builder()
-		  .baseUrl("http://localhost:20004")
+		  .baseUrl(new URL(protocol, host, Integer.parseInt(fileparserPort), "").toString())
 		  .build()
 		  .method(HttpMethod.POST)
 		  .uri("/file-parser")
