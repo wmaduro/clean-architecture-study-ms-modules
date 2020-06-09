@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
-import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 
 @Component

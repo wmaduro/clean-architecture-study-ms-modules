@@ -3,7 +3,6 @@ package com.maduro.cas.unit.orchestration.network;
 import java.net.MalformedURLException;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

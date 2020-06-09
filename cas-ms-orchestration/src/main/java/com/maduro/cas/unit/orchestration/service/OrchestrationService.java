@@ -23,9 +23,6 @@ public class OrchestrationService {
 
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
-
-//	@Autowired
-//	private RequestHelper requestHelper;
 	
 	@Autowired
 	private StorageRequest storageRequest;

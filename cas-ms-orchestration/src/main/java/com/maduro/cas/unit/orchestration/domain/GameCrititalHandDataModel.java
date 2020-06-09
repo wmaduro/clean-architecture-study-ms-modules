@@ -2,8 +2,6 @@ package com.maduro.cas.unit.orchestration.domain;
 
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConstructorBinding;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
