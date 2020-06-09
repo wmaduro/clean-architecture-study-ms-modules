@@ -1,6 +1,5 @@
-package com.maduro.cas.unit.orchestration.network;
+package com.maduro.cas.unit.orchestration.service.network;
 
-import java.net.MalformedURLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,7 @@ public class StorageRequest extends BaseRequest {
 		super.setPort(port);
 	}
 
-	public Long saveStorage(byte[] content) throws NumberFormatException, MalformedURLException {
+	public Long saveStorage(byte[] content) {
 		
 		Optional<Object> oResult = this.sendBlockRequest(content, "/file-content", HttpMethod.POST);
 		

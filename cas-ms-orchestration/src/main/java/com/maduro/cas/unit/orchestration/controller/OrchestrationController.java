@@ -1,7 +1,5 @@
 package com.maduro.cas.unit.orchestration.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +18,8 @@ public class OrchestrationController {
 	private OrchestrationService orchestratorService;
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public OrchestrationDTO processFoto(MultipartFile file) throws IOException {
+	public OrchestrationDTO processFoto(MultipartFile file) {
 		return orchestratorService.processFile(file);
 	}
-
 
 }

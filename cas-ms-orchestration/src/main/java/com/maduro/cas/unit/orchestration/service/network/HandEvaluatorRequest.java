@@ -1,6 +1,5 @@
-package com.maduro.cas.unit.orchestration.network;
+package com.maduro.cas.unit.orchestration.service.network;
 
-import java.net.MalformedURLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +18,10 @@ public class HandEvaluatorRequest extends BaseRequest {
 		super.setPort(port);
 	}
 
-	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO)throws NumberFormatException, MalformedURLException {
-		
+	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) {
+		if (handMapperDTO == null) {
+			return null;
+		}
 		Optional<Object> oResult = this.sendBlockRequest(handMapperDTO, "/hand-evaluator", HttpMethod.POST);
 				
 		HandEvaluatorDTO handEvaluatorDTO = null;

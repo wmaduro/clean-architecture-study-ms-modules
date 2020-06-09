@@ -1,6 +1,5 @@
-package com.maduro.cas.unit.orchestration.network;
+package com.maduro.cas.unit.orchestration.service.network;
 
-import java.net.MalformedURLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +18,10 @@ public class HandMapperRequest extends BaseRequest {
 		super.setPort(port);
 	}
 
-	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) throws NumberFormatException, MalformedURLException {
+	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
+		if (fileParserDTO == null) {
+			return null;
+		}
 		
 		Optional<Object> oResult = this.sendBlockRequest(fileParserDTO, "/hand-mapper", HttpMethod.POST);
 		

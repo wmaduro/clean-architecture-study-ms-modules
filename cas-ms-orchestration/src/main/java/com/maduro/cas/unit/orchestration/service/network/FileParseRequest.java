@@ -1,6 +1,5 @@
-package com.maduro.cas.unit.orchestration.network;
+package com.maduro.cas.unit.orchestration.service.network;
 
-import java.net.MalformedURLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
+import com.maduro.cas.unit.orchestration.service.exception.StorageDTONullabilyException;
 
 @Component
 public class FileParseRequest extends BaseRequest {
@@ -19,7 +19,11 @@ public class FileParseRequest extends BaseRequest {
 		super.setPort(port);
 	}
 
-	public FileParserDTO processFileParser(StorageDTO storageDTO) throws NumberFormatException, MalformedURLException {
+	public FileParserDTO processFileParser(StorageDTO storageDTO) {
+		
+		if (storageDTO == null || storageDTO.getFileReference().isBlank()) {
+			throw new StorageDTONullabilyException();
+		}	
 
 		Optional<Object> oResult = this.sendBlockRequest(storageDTO, "/file-parser", HttpMethod.POST);
 

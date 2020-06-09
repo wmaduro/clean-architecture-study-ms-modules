@@ -12,36 +12,51 @@ import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.OrchestrationDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
-import com.maduro.cas.unit.orchestration.network.FileParseRequest;
-import com.maduro.cas.unit.orchestration.network.HandEvaluatorRequest;
-import com.maduro.cas.unit.orchestration.network.HandMapperRequest;
-import com.maduro.cas.unit.orchestration.network.StorageRequest;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
+import com.maduro.cas.unit.orchestration.service.exception.ImportFileInvalid;
+import com.maduro.cas.unit.orchestration.service.exception.InsertingOrchestrationException;
+import com.maduro.cas.unit.orchestration.service.exception.InvalidParameterException;
+import com.maduro.cas.unit.orchestration.service.network.FileParseRequest;
+import com.maduro.cas.unit.orchestration.service.network.HandEvaluatorRequest;
+import com.maduro.cas.unit.orchestration.service.network.HandMapperRequest;
+import com.maduro.cas.unit.orchestration.service.network.StorageRequest;
 
 @Service
 public class OrchestrationService {
 
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
-	
+
 	@Autowired
 	private StorageRequest storageRequest;
-	
+
 	@Autowired
 	private FileParseRequest fileParseRequest;
-	
+
 	@Autowired
 	private HandMapperRequest handMapperRequest;
-	
+
 	@Autowired
 	private HandEvaluatorRequest handEvaluatorRequest;
 
-	public OrchestrationDTO processFile(MultipartFile file) throws IOException {
-		
-		Long idStorageReference = storageRequest.saveStorage(file.getBytes());
-		
+	public OrchestrationDTO processFile(final MultipartFile file) {
+
+		if (file == null) {
+			throw new InvalidParameterException();
+		}
+	
+		Long idStorageReference;
+		try {
+			idStorageReference = storageRequest.saveStorage(file.getBytes());
+		} catch (IOException e) {
+			throw new ImportFileInvalid();
+		}
+
 		Orchestration orchestration = orchestratorRepository
 				.save(new Orchestration(null, idStorageReference.toString(), null));
+		if (orchestration == null) {
+			throw new InsertingOrchestrationException();
+		}
 
 		FileParserDTO fileParserDTO = fileParseRequest.processFileParser(new StorageDTO(idStorageReference.toString()));
 
@@ -56,6 +71,11 @@ public class OrchestrationService {
 	}
 
 	private void saveResult(Orchestration orchestration, HandEvaluatorDTO handEvaluatorDTO) {
+		
+		if (orchestration == null || handEvaluatorDTO == null
+				|| handEvaluatorDTO.getGameCrititalHandDataModelList().isEmpty()) {
+			return;
+		}
 
 		StringBuilder sb = new StringBuilder();
 
