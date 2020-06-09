@@ -30,49 +30,51 @@ public class RequestHelper {
 	@Value(value = "${cas-ms.service.file-parser.port}")
 	private String fileparserPort;
 		
-	public Long saveStorage(byte[] content) throws MalformedURLException {
-		
-		return  WebClient
-				  .builder()
-				  .baseUrl(new URL(protocol, host, Integer.parseInt(storagePort), "").toString())
-				  .build()
-				  .method(HttpMethod.POST)
-				  .uri("/file-content")
-				  .body(BodyInserters.fromValue(content))
-				  .retrieve()
-				  .bodyToMono(Long.class)
-				  .block();
-
-	}
+//	public Long saveStorage(byte[] content) throws MalformedURLException {
+//		
+//		Integer i =(Integer) WebClient
+//				  .builder()
+//				  .baseUrl(new URL(protocol, host, Integer.parseInt(storagePort), "").toString())
+//				  .build()
+//				  .method(HttpMethod.POST)
+//				  .uri("/file-content")
+//				  .body(BodyInserters.fromValue(content))
+//				  .retrieve()
+//				  .bodyToMono(Object.class)
+//				  .block();
+//		
+//		return  Long.valueOf(i);
+//
+//	}
 	
-	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) throws NumberFormatException, MalformedURLException {
-		
-		return WebClient
-			  .builder()
-			  .baseUrl(new URL(protocol, host, Integer.parseInt(handEvaluatorPort), "").toString())
-			  .build()
-			  .method(HttpMethod.POST)
-			  .uri("/hand-evaluator")
-			  .body(BodyInserters.fromValue(handMapperDTO))
-			  .retrieve()
-			  .bodyToMono(HandEvaluatorDTO.class)
-			  .block();
-	}
+//	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) throws NumberFormatException, MalformedURLException {
+//		
+//		return WebClient
+//			  .builder()
+//			  .baseUrl(new URL(protocol, host, Integer.parseInt(handEvaluatorPort), "").toString())
+//			  .build()
+//			  .method(HttpMethod.POST)
+//			  .uri("/hand-evaluator")
+//			  .body(BodyInserters.fromValue(handMapperDTO))
+//			  .retrieve()
+//			  .bodyToMono(HandEvaluatorDTO.class)
+//			  .block();
+//	}
 	
-	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) throws NumberFormatException, MalformedURLException {
-		
-		return  WebClient
-		  .builder()
-		  .baseUrl(new URL(protocol, host, Integer.parseInt(handMapperPort), "").toString())
-		  .build()
-		  .method(HttpMethod.POST)
-		  .uri("/hand-mapper")
-		  .body(BodyInserters.fromValue(fileParserDTO))
-		  .retrieve()
-		  .bodyToMono(HandMapperDTO.class)
-		  .block();
-		 
-	}
+//	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) throws NumberFormatException, MalformedURLException {
+//		
+//		return  WebClient
+//		  .builder()
+//		  .baseUrl(new URL(protocol, host, Integer.parseInt(handMapperPort), "").toString())
+//		  .build()
+//		  .method(HttpMethod.POST)
+//		  .uri("/hand-mapper")
+//		  .body(BodyInserters.fromValue(fileParserDTO))
+//		  .retrieve()
+//		  .bodyToMono(HandMapperDTO.class)
+//		  .block();
+//		 
+//	}
 	
 	
 	public FileParserDTO processFileParser(String fileReference) throws NumberFormatException, MalformedURLException {

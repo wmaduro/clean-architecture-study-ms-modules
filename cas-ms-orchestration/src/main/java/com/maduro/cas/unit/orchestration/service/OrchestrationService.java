@@ -11,8 +11,12 @@ import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.OrchestrationDTO;
+import com.maduro.cas.unit.orchestration.dto.StorageDTO;
+import com.maduro.cas.unit.orchestration.network.FileParseRequest;
+import com.maduro.cas.unit.orchestration.network.HandEvaluatorRequest;
+import com.maduro.cas.unit.orchestration.network.HandMapperRequest;
+import com.maduro.cas.unit.orchestration.network.StorageRequest;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
-import com.maduro.cas.unit.orchestration.service.network.RequestHelper;
 
 @Service
 public class OrchestrationService {
@@ -20,21 +24,33 @@ public class OrchestrationService {
 	@Autowired
 	private OrchestrationRepository orchestratorRepository;
 
+//	@Autowired
+//	private RequestHelper requestHelper;
+	
 	@Autowired
-	private RequestHelper requestHelper;
+	private StorageRequest storageRequest;
+	
+	@Autowired
+	private FileParseRequest fileParseRequest;
+	
+	@Autowired
+	private HandMapperRequest handMapperRequest;
+	
+	@Autowired
+	private HandEvaluatorRequest handEvaluatorRequest;
 
 	public OrchestrationDTO processFile(MultipartFile file) throws IOException {
-
-		Long idStorageReference = requestHelper.saveStorage(file.getBytes());
-
+		
+		Long idStorageReference = storageRequest.saveStorage(file.getBytes());
+		
 		Orchestration orchestration = orchestratorRepository
 				.save(new Orchestration(null, idStorageReference.toString(), null));
 
-		FileParserDTO fileParserDTO = requestHelper.processFileParser(idStorageReference.toString());
+		FileParserDTO fileParserDTO = fileParseRequest.processFileParser(new StorageDTO(idStorageReference.toString()));
 
-		HandMapperDTO handMapperDTO = requestHelper.processHandMapper(fileParserDTO);
+		HandMapperDTO handMapperDTO = handMapperRequest.processHandMapper(fileParserDTO);
 
-		HandEvaluatorDTO handEvaluatorDTO = requestHelper.processHandEvaluator(handMapperDTO);
+		HandEvaluatorDTO handEvaluatorDTO = handEvaluatorRequest.processHandEvaluator(handMapperDTO);
 
 		saveResult(orchestration, handEvaluatorDTO);
 
