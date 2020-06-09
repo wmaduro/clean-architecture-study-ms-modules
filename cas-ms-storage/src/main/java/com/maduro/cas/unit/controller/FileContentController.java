@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,16 +23,17 @@ public class FileContentController {
 	private FileContentService fileContentService;
 
 	@PostMapping(consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE )
-	public Long testArray(@RequestBody byte[] content) {
+	public Long saveContent(@RequestBody byte[] content) {
 		return fileContentService.save(content);
 	}
 	
 	@GetMapping("/{id}")
-	public byte[] findById(@PathVariable Long id) {
+	public ResponseEntity<?> findById(@PathVariable Long id) {
 		Optional<FileContent> oFileContent = fileContentService.findById(id);
-		
-		System.out.println("---> "+oFileContent.get().getContent());
-		return oFileContent.get().getContent();
+		if (!oFileContent.isPresent()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(oFileContent.get().getContent());
 	}
 
 }

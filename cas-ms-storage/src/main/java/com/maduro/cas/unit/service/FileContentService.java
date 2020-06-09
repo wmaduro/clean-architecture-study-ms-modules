@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.maduro.cas.unit.domain.FileContent;
 import com.maduro.cas.unit.repository.FileContentRepository;
+import com.maduro.cas.unit.service.exception.DatabaseNotAvailableException;
 
 @Service
 public class FileContentService {
@@ -19,12 +20,20 @@ public class FileContentService {
 		try {
 			return fileContentRepository.save(new FileContent(null, fileContent)).getId();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			throw new DatabaseNotAvailableException();
 		}
+
 	}
 
 	public Optional<FileContent> findById(Long id) {
-		return fileContentRepository.findById(id);
+		
+		try {
+			return fileContentRepository.findById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DatabaseNotAvailableException();
+		}
 	}
 
 }
