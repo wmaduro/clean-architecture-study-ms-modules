@@ -22,14 +22,5 @@ public class FileParserController {
 	public FileParserDTO processFile(@RequestBody StorageDTO storageDTO) throws Exception {
 		return fileParserService.processStorage(storageDTO);
 	}
-	
-	@PostMapping(consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE )
-	public String testArray(@RequestBody byte[] lixo) {
-		System.out.println("teste..." + lixo.length);
-		
-		System.out.println("teste..." + new String(lixo));
-		
-		return "teste....." + lixo.length;// fileParserService.processFile(fileDTO);
-	}
 
 }
