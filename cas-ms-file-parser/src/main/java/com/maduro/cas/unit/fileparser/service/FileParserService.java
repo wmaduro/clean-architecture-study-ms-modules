@@ -56,28 +56,15 @@ public class FileParserService {
 				  .uri("/file-content/"+idReference)
 				  .retrieve()
 				  
-//				  .onStatus(HttpStatus::is4xxClientError, response -> {
-//					  System.out.println("erooo 400 "+response.statusCode());
-//			             throw new StorageServiceException("4000 testttttttt");
-//			         })
-//				  .onStatus(HttpStatus::is5xxServerError, response -> {
-//					  System.out.println("erooo 500 "+response.statusCode());
-//			            throw new StorageServiceException("5000 testttttttt");
-//			         })
-				  
 				  .onStatus(HttpStatus::isError, error -> {
-					  System.out.println("----Http error: "+error);
 			         throw new StorageServiceHttpException("Http error: "+error.rawStatusCode());
 			       })
 				  
 				  .bodyToMono(byte[].class)
 				  .doOnError(error->{
-					  
 					  if (error instanceof ConnectException) {
 						  throw new StorageServiceUnavailableException(error.getMessage());  
 					  }
-					  
-					  
 				  })
 				  .block();
 		
