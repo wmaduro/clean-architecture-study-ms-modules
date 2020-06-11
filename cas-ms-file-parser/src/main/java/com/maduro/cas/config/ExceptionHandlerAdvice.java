@@ -26,6 +26,7 @@ class CustomErrorResponse {
 public class ExceptionHandlerAdvice {
 
 	private CustomErrorResponse generateCustomErrorResponse(Exception e) {
+		e.printStackTrace();
 		return generateCustomErrorResponse(
 				(e.getMessage() == null || e.getMessage().isBlank()) ? "Undefined Message" : e.getMessage());
 	}
@@ -37,13 +38,6 @@ public class ExceptionHandlerAdvice {
 		return customErrorResponse;
 	}
 
-//	@ExceptionHandler({ ConnectException.class })
-//	public ResponseEntity<?> handleRunTimeException(ConnectException e) {
-//		return new ResponseEntity<>(
-//				generateCustomErrorResponse("The service couldn't reach the server: " + e.getMessage()),
-//				HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<?> handleRunTimeException(Exception e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -51,13 +45,13 @@ public class ExceptionHandlerAdvice {
 
 	@ExceptionHandler({ StorageServiceUnavailableException.class})
 	public ResponseEntity<?> handleStorageServiceUnavailableException(StorageServiceUnavailableException e) {
-		return new ResponseEntity<>(generateCustomErrorResponse("Storage Unavailable: " + e.getMessage()),
+		return new ResponseEntity<>(generateCustomErrorResponse("Storage Service Unavailable: " + e.getMessage()),
 				HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
 	@ExceptionHandler({ StorageServiceHttpException.class })
 	public ResponseEntity<?> handleStorageServiceHttpException(StorageServiceHttpException e) {
-		return new ResponseEntity<>(generateCustomErrorResponse("Storage Http Error: " + e.getMessage()),
+		return new ResponseEntity<>(generateCustomErrorResponse("Storage Service Http Error: " + e.getMessage()),
 				HttpStatus.BAD_GATEWAY);
 	}
 

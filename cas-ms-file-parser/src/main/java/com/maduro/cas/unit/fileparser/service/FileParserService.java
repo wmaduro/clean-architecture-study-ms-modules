@@ -1,36 +1,35 @@
 package com.maduro.cas.unit.fileparser.service;
 
 import java.lang.reflect.Field;
-import java.net.ConnectException;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.maduro.cas.unit.fileparser.domain.HandDataModel;
 import com.maduro.cas.unit.fileparser.dto.FileParserDTO;
 import com.maduro.cas.unit.fileparser.dto.StorageDTO;
-import com.maduro.cas.unit.fileparser.service.exception.StorageServiceHttpException;
-import com.maduro.cas.unit.fileparser.service.exception.StorageServiceUnavailableException;
+import com.maduro.cas.unit.fileparser.service.network.StorageRequest;
 
 @Service
 public class FileParserService {
 
+	@Autowired
+	private StorageRequest storageRequest;
+
 	public FileParserDTO processStorage(StorageDTO storageDTO) throws Exception {
-		
+
 		FileParserDTO fileParserDTO = new FileParserDTO();
 
-		byte[] bytes = loadFromStorage(storageDTO.getFileReference());	
-		
+		byte[] bytes = storageRequest.loadFromStorage(storageDTO);
+
 		if (bytes == null) {
 			return fileParserDTO;
 		}
-		
+
 		String fileContent = new String(bytes);
-		
+
 		final String HEAD = "\"game\"";
-		
+
 		String[] lines = fileContent.split("\n");
 		for (String line : lines) {
 			if (line.startsWith(HEAD)) {
@@ -41,33 +40,8 @@ public class FileParserService {
 				fileParserDTO.addHandDataModel(handDataModel);
 			}
 		}
-		
-		
-		return fileParserDTO;
-	}
 
-	private byte[] loadFromStorage(String idReference) {
-		
-		return  WebClient
-				  .builder()
-				  .baseUrl("http://localhost:20005")
-				  .build()
-				  .method(HttpMethod.GET)
-				  .uri("/file-content/"+idReference)
-				  .retrieve()
-				  
-				  .onStatus(HttpStatus::isError, error -> {
-			         throw new StorageServiceHttpException("Http error: "+error.rawStatusCode());
-			       })
-				  
-				  .bodyToMono(byte[].class)
-				  .doOnError(error->{
-					  if (error instanceof ConnectException) {
-						  throw new StorageServiceUnavailableException(error.getMessage());  
-					  }
-				  })
-				  .block();
-		
+		return fileParserDTO;
 	}
 
 	private HandDataModel parseLine(String line) throws Exception {
