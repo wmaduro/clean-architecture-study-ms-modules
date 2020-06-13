@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.fileparser.domain;
+package com.maduro.cas.unit.domain;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

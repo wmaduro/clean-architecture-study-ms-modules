@@ -1,26 +1,26 @@
-package com.maduro.cas.unit.fileparser.service;
+package com.maduro.cas.unit.service;
 
 import java.lang.reflect.Field;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.maduro.cas.core.network.StorageRequest;
-import com.maduro.cas.unit.fileparser.domain.HandDataModel;
-import com.maduro.cas.unit.fileparser.dto.FileParserDTO;
-import com.maduro.cas.unit.fileparser.dto.StorageDTO;
+import com.maduro.cas.core.network.StorageNetwork;
+import com.maduro.cas.unit.domain.HandDataModel;
+import com.maduro.cas.unit.dto.FileParserDTO;
+import com.maduro.cas.unit.dto.StorageDTO;
 
 @Service
 public class FileParserService {
 
 	@Autowired
-	private StorageRequest storageRequest;
+	private StorageNetwork storageNetwork;
 
 	public FileParserDTO processStorage(StorageDTO storageDTO) throws Exception {
 
 		FileParserDTO fileParserDTO = new FileParserDTO();
 
-		byte[] bytes = storageRequest.loadFromStorage(storageDTO);
+		byte[] bytes = storageNetwork.loadFromStorage(storageDTO);
 
 		if (bytes == null) {
 			return fileParserDTO;

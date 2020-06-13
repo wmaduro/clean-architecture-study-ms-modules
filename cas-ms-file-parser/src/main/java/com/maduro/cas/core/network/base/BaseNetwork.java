@@ -23,7 +23,7 @@ import com.maduro.cas.core.exception.internal.UrlParseException;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
 
-public abstract class BaseRequest {
+public abstract class BaseNetwork {
 
 	@Value(value = "${cas-ms.protocol}")
 	private String protocol="http";
@@ -38,7 +38,7 @@ public abstract class BaseRequest {
 	protected Consumer<? super Throwable> onError;
 	
 
-	public BaseRequest(ExternalServiceEnum externalServiceEnum) {
+	public BaseNetwork(ExternalServiceEnum externalServiceEnum) {
 		
 		this.functionHttpStausIsError = error -> {
 			throw new ExternalServiceHttpException(error.statusCode().toString(), externalServiceEnum);	};

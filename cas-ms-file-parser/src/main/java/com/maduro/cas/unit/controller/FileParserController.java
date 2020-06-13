@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.fileparser.controller;
+package com.maduro.cas.unit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.maduro.cas.unit.fileparser.dto.FileParserDTO;
-import com.maduro.cas.unit.fileparser.dto.StorageDTO;
-import com.maduro.cas.unit.fileparser.service.FileParserService;
+import com.maduro.cas.unit.dto.FileParserDTO;
+import com.maduro.cas.unit.dto.StorageDTO;
+import com.maduro.cas.unit.service.FileParserService;
 
 @RestController
 @RequestMapping(path = "/file-parser")

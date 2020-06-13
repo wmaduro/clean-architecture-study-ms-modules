@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.fileparser.dto;
+package com.maduro.cas.unit.dto;
 
 import lombok.Getter;
 

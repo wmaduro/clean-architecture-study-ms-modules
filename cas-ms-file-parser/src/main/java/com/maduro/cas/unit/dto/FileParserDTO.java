@@ -1,9 +1,9 @@
-package com.maduro.cas.unit.fileparser.dto;
+package com.maduro.cas.unit.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.maduro.cas.unit.fileparser.domain.HandDataModel;
+import com.maduro.cas.unit.domain.HandDataModel;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.fileparser.service.exception;
+package com.maduro.cas.unit.service.exception;
 
 public class StorageServiceHttpException extends RuntimeException  {
 
