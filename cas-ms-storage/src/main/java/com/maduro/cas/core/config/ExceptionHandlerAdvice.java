@@ -1,4 +1,4 @@
-package com.maduro.cas.config;
+package com.maduro.cas.core.config;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maduro.cas.core.exception.base.BaseInternalException;
 import com.maduro.cas.unit.service.exception.DatabaseNotAvailableException;
 
 import lombok.Data;
@@ -37,10 +38,16 @@ public class ExceptionHandlerAdvice {
 	}
 
 	@ExceptionHandler({ Exception.class })
-	public ResponseEntity<?> handleRunTimeException(Exception e) {
+	public ResponseEntity<?> handleException(Exception e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ExceptionHandler({ BaseInternalException.class })
+	public ResponseEntity<?> handleBaseInternalException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.EXPECTATION_FAILED);
+	}
+
+	
 	@ExceptionHandler({ DatabaseNotAvailableException.class })
 	public ResponseEntity<?> handleStorageServiceUnavailableException(DatabaseNotAvailableException e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.SERVICE_UNAVAILABLE);
