@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.maduro.cas</groupId>
-	<artifactId>cas-ms-orchestrator</artifactId>
+	<artifactId>cas-ms-orchestration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cas-ms-orchestrator</name>
 	<description>Demo project for Spring Boot</description>
