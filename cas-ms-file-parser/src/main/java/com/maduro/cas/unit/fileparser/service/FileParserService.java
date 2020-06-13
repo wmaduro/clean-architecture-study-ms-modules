@@ -5,10 +5,10 @@ import java.lang.reflect.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.maduro.cas.core.network.StorageRequest;
 import com.maduro.cas.unit.fileparser.domain.HandDataModel;
 import com.maduro.cas.unit.fileparser.dto.FileParserDTO;
 import com.maduro.cas.unit.fileparser.dto.StorageDTO;
-import com.maduro.cas.unit.fileparser.service.network.StorageRequest;
 
 @Service
 public class FileParserService {

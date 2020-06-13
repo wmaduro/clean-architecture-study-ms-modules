@@ -17,8 +17,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
 import com.maduro.cas.core.exception.external.ExternalServiceHttpException;
 import com.maduro.cas.core.exception.external.ExternalServiceUnavailableException;
-import com.maduro.cas.unit.orchestration.service.exception.PortValueInvalidException;
-import com.maduro.cas.unit.orchestration.service.exception.UrlParseException;
+import com.maduro.cas.core.exception.internal.PortValueInvalidException;
+import com.maduro.cas.core.exception.internal.UrlParseException;
 
 import lombok.Setter;
 import reactor.core.publisher.Mono;

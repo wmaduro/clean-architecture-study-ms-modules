@@ -1,4 +1,4 @@
-package com.maduro.cas.config;
+package com.maduro.cas.core.config;
 
 import java.time.LocalDateTime;
 
@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.maduro.cas.unit.fileparser.service.exception.StorageServiceHttpException;
-import com.maduro.cas.unit.fileparser.service.exception.StorageServiceUnavailableException;
+import com.maduro.cas.core.exception.base.BaseInternalException;
+import com.maduro.cas.core.exception.external.ExternalServiceHttpException;
+import com.maduro.cas.core.exception.external.ExternalServiceUnavailableException;
 
 import lombok.Data;
 
@@ -26,7 +27,6 @@ class CustomErrorResponse {
 public class ExceptionHandlerAdvice {
 
 	private CustomErrorResponse generateCustomErrorResponse(Exception e) {
-		e.printStackTrace();
 		return generateCustomErrorResponse(
 				(e.getMessage() == null || e.getMessage().isBlank()) ? "Undefined Message" : e.getMessage());
 	}
@@ -39,20 +39,23 @@ public class ExceptionHandlerAdvice {
 	}
 
 	@ExceptionHandler({ Exception.class })
-	public ResponseEntity<?> handleRunTimeException(Exception e) {
+	public ResponseEntity<?> handleException(Exception e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler({ StorageServiceUnavailableException.class})
-	public ResponseEntity<?> handleStorageServiceUnavailableException(StorageServiceUnavailableException e) {
-		return new ResponseEntity<>(generateCustomErrorResponse("Storage Service Unavailable: " + e.getMessage()),
-				HttpStatus.SERVICE_UNAVAILABLE);
+	@ExceptionHandler({ BaseInternalException.class })
+	public ResponseEntity<?> handleBaseInternalException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.EXPECTATION_FAILED);
 	}
 	
-	@ExceptionHandler({ StorageServiceHttpException.class })
-	public ResponseEntity<?> handleStorageServiceHttpException(StorageServiceHttpException e) {
-		return new ResponseEntity<>(generateCustomErrorResponse("Storage Service Http Error: " + e.getMessage()),
-				HttpStatus.BAD_GATEWAY);
+	@ExceptionHandler({ ExternalServiceHttpException.class })
+	public ResponseEntity<?> handleExternalServiceHttpException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.BAD_GATEWAY);
+	}
+	
+	@ExceptionHandler({ ExternalServiceUnavailableException.class })
+	public ResponseEntity<?> handleExternalServiceUnavailableException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 }
