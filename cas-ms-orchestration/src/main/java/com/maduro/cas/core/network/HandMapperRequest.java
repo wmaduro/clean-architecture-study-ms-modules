@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.orchestration.service.network;
+package com.maduro.cas.core.network;
 
 import java.util.Optional;
 
@@ -7,10 +7,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.network.base.BaseRequest;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
-import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.unit.orchestration.service.network.base.BaseRequest;
 
 public class HandMapperRequest extends BaseRequest {
 

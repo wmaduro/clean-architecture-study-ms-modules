@@ -1,15 +1,15 @@
-package com.maduro.cas.unit.orchestration.config;
+package com.maduro.cas.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.unit.orchestration.service.network.FileParseRequest;
-import com.maduro.cas.unit.orchestration.service.network.HandEvaluatorRequest;
-import com.maduro.cas.unit.orchestration.service.network.HandMapperRequest;
-import com.maduro.cas.unit.orchestration.service.network.StorageRequest;
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.network.FileParseRequest;
+import com.maduro.cas.core.network.HandEvaluatorRequest;
+import com.maduro.cas.core.network.HandMapperRequest;
+import com.maduro.cas.core.network.StorageRequest;
 
 @Configuration
 @Order(value = Ordered.HIGHEST_PRECEDENCE)

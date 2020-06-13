@@ -1,6 +1,6 @@
-package com.maduro.cas.unit.orchestration.service.exception.internal;
+package com.maduro.cas.unit.orchestration.service.exception;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.BaseRuntimeException;
+import com.maduro.cas.core.exception.base.BaseRuntimeException;
 
 public class PortValueInvalidException extends BaseRuntimeException {
 

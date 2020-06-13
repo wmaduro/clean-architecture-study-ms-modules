@@ -1,7 +1,7 @@
-package com.maduro.cas.unit.orchestration.service.exception.external;
+package com.maduro.cas.core.exception.external;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.BaseExternalException;
-import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.exception.base.BaseExternalException;
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
 
 public class ExternalServiceHttpException extends BaseExternalException  {
 

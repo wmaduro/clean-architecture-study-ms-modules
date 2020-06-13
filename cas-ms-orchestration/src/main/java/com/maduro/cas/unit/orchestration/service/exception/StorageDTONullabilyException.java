@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.orchestration.service.exception.internal;
+package com.maduro.cas.unit.orchestration.service.exception;
 
 public class StorageDTONullabilyException extends RuntimeException {
 

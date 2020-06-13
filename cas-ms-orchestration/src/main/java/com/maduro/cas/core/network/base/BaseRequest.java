@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.orchestration.service.network.base;
+package com.maduro.cas.core.network.base;
 
 import java.net.ConnectException;
 import java.net.MalformedURLException;
@@ -14,11 +14,11 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.unit.orchestration.service.exception.external.ExternalServiceHttpException;
-import com.maduro.cas.unit.orchestration.service.exception.external.ExternalServiceUnavailableException;
-import com.maduro.cas.unit.orchestration.service.exception.internal.PortValueInvalidException;
-import com.maduro.cas.unit.orchestration.service.exception.internal.UrlParseException;
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.exception.external.ExternalServiceHttpException;
+import com.maduro.cas.core.exception.external.ExternalServiceUnavailableException;
+import com.maduro.cas.unit.orchestration.service.exception.PortValueInvalidException;
+import com.maduro.cas.unit.orchestration.service.exception.UrlParseException;
 
 import lombok.Setter;
 import reactor.core.publisher.Mono;

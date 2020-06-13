@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.orchestration.service.exception.base;
+package com.maduro.cas.core.exception.base;
 
 public abstract class BaseRuntimeException extends RuntimeException{
 

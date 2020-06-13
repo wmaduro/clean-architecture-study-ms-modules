@@ -1,6 +1,6 @@
-package com.maduro.cas.unit.orchestration.service.exception.internal;
+package com.maduro.cas.unit.orchestration.service.exception;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.BaseInternalException;
+import com.maduro.cas.core.exception.base.BaseInternalException;
 
 public class UrlParseException extends BaseInternalException {
 

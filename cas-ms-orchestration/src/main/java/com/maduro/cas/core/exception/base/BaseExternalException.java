@@ -1,6 +1,6 @@
-package com.maduro.cas.unit.orchestration.service.exception.base;
+package com.maduro.cas.core.exception.base;
 
-import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
 
 import lombok.Getter;
 
