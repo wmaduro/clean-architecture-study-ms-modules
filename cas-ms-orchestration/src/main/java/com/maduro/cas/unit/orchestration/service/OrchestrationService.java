@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maduro.cas.core.network.FileParseRequest;
-import com.maduro.cas.core.network.HandEvaluatorRequest;
-import com.maduro.cas.core.network.HandMapperRequest;
-import com.maduro.cas.core.network.StorageRequest;
+import com.maduro.cas.core.network.FileParseNetwork;
+import com.maduro.cas.core.network.HandEvaluatorNetwork;
+import com.maduro.cas.core.network.HandMapperNetwork;
+import com.maduro.cas.core.network.StorageNetwork;
 import com.maduro.cas.unit.orchestration.domain.Orchestration;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
@@ -28,16 +28,16 @@ public class OrchestrationService {
 	private OrchestrationRepository orchestratorRepository;
 
 	@Autowired
-	private StorageRequest storageRequest;
+	private StorageNetwork storageNetwork;
 
 	@Autowired
-	private FileParseRequest fileParseRequest;
+	private FileParseNetwork fileParseNetwork;
 
 	@Autowired
-	private HandMapperRequest handMapperRequest;
+	private HandMapperNetwork handMapperNetwork;
 
 	@Autowired
-	private HandEvaluatorRequest handEvaluatorRequest;
+	private HandEvaluatorNetwork handEvaluatorNetwork;
 
 	public OrchestrationDTO processFile(final MultipartFile file) {
 
@@ -47,7 +47,7 @@ public class OrchestrationService {
 	
 		Long idStorageReference;
 		try {
-			idStorageReference = storageRequest.saveStorage(file.getBytes());
+			idStorageReference = storageNetwork.saveStorage(file.getBytes());
 		} catch (IOException e) {
 			throw new ImportFileInvalid();
 		}
@@ -58,11 +58,11 @@ public class OrchestrationService {
 			throw new InsertingOrchestrationException();
 		}
 
-		FileParserDTO fileParserDTO = fileParseRequest.processFileParser(new StorageDTO(idStorageReference.toString()));
+		FileParserDTO fileParserDTO = fileParseNetwork.processFileParser(new StorageDTO(idStorageReference.toString()));
 
-		HandMapperDTO handMapperDTO = handMapperRequest.processHandMapper(fileParserDTO);
+		HandMapperDTO handMapperDTO = handMapperNetwork.processHandMapper(fileParserDTO);
 
-		HandEvaluatorDTO handEvaluatorDTO = handEvaluatorRequest.processHandEvaluator(handMapperDTO);
+		HandEvaluatorDTO handEvaluatorDTO = handEvaluatorNetwork.processHandEvaluator(handMapperDTO);
 
 		saveResult(orchestration, handEvaluatorDTO);
 

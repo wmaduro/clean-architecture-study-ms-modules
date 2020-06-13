@@ -7,14 +7,14 @@ import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.core.network.base.BaseRequest;
+import com.maduro.cas.core.network.base.BaseNetwork;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
 import com.maduro.cas.unit.orchestration.service.exception.StorageDTONullabilyException;
 
-public class FileParseRequest extends BaseRequest {
+public class FileParseNetwork extends BaseNetwork {
 	
-	public FileParseRequest(ExternalServiceEnum externalServiceEnum) {
+	public FileParseNetwork(ExternalServiceEnum externalServiceEnum) {
 		super(externalServiceEnum);
 	}
 

@@ -1,5 +1,6 @@
-package com.maduro.cas.unit.fileparser.service.network.base;
+package com.maduro.cas.core.network.base;
 
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
@@ -13,10 +14,16 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.core.exception.external.ExternalServiceHttpException;
+import com.maduro.cas.core.exception.external.ExternalServiceUnavailableException;
+import com.maduro.cas.core.exception.internal.PortValueInvalidException;
+import com.maduro.cas.core.exception.internal.UrlParseException;
+
 import lombok.Setter;
 import reactor.core.publisher.Mono;
 
-public abstract class BaseRequest {
+public abstract class BaseNetwork {
 
 	@Value(value = "${cas-ms.protocol}")
 	private String protocol="http";
@@ -25,8 +32,23 @@ public abstract class BaseRequest {
 	@Setter
 	private String port;
 	
+	protected ExternalServiceEnum externalServiceEnum;
+	
 	protected Function<ClientResponse, Mono<? extends Throwable>> functionHttpStausIsError;
 	protected Consumer<? super Throwable> onError;
+	
+
+	public BaseNetwork(ExternalServiceEnum externalServiceEnum) {
+		
+		this.functionHttpStausIsError = error -> {
+			throw new ExternalServiceHttpException(error.statusCode().toString(), externalServiceEnum);	};
+
+		this.onError = error -> {
+			if (error instanceof ConnectException) {
+				throw new ExternalServiceUnavailableException(error.getMessage(), externalServiceEnum);
+			}
+		};
+	}
 
 	protected <T> Optional<T> sendBlockRequest(Class<T> typeReturnObject, 
 			Object content, 
@@ -58,9 +80,9 @@ public abstract class BaseRequest {
 			return Optional.of(return_);
 			
 		} catch (NumberFormatException e) {
-			throw new RuntimeException("Invalid port value: "+port);
+			throw new PortValueInvalidException("Invalid port value: "+port);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Invalid URL: " + protocol + "," + host + "," + port);
+			throw new UrlParseException("Invalid URL: " + protocol + "," + host + "," + port);
 		} 
 	}
 	

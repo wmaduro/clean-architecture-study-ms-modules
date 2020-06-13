@@ -7,14 +7,14 @@ import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.core.network.base.BaseRequest;
+import com.maduro.cas.core.network.base.BaseNetwork;
 import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 
 
-public class HandEvaluatorRequest extends BaseRequest {
+public class HandEvaluatorNetwork extends BaseNetwork {
 
-	public HandEvaluatorRequest(ExternalServiceEnum externalServiceEnum) {
+	public HandEvaluatorNetwork(ExternalServiceEnum externalServiceEnum) {
 		super(externalServiceEnum);	
 	}
 

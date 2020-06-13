@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.core.network.base.BaseRequest;
+import com.maduro.cas.core.network.base.BaseNetwork;
 import com.maduro.cas.unit.orchestration.dto.FileParserDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 
-public class HandMapperRequest extends BaseRequest {
+public class HandMapperNetwork extends BaseNetwork {
 
-	public HandMapperRequest(ExternalServiceEnum externalServiceEnum) {
+	public HandMapperNetwork(ExternalServiceEnum externalServiceEnum) {
 		super(externalServiceEnum);
 	}
 

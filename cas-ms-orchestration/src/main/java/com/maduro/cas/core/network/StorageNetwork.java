@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
-import com.maduro.cas.core.network.base.BaseRequest;
+import com.maduro.cas.core.network.base.BaseNetwork;
 
 
-public class StorageRequest extends BaseRequest {
+public class StorageNetwork extends BaseNetwork {
 	
-	public StorageRequest(ExternalServiceEnum externalServiceEnum) {
+	public StorageNetwork(ExternalServiceEnum externalServiceEnum) {
 		super(externalServiceEnum);
 	}
 
