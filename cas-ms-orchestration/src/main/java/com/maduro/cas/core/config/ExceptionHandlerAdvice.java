@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.maduro.cas.unit.orchestration.service.exception.ImportFileInvalid;
-import com.maduro.cas.unit.orchestration.service.exception.InsertingOrchestrationException;
-import com.maduro.cas.unit.orchestration.service.exception.InvalidParameterException;
-import com.maduro.cas.unit.orchestration.service.exception.StorageDTONullabilyException;
+import com.maduro.cas.core.exception.base.BaseInternalException;
+import com.maduro.cas.core.exception.external.ExternalServiceHttpException;
+import com.maduro.cas.core.exception.external.ExternalServiceUnavailableException;
 
 import lombok.Data;
 
@@ -38,23 +37,25 @@ public class ExceptionHandlerAdvice {
 		customErrorResponse.setMessage(message);
 		return customErrorResponse;
 	}
-	
-//	@ExceptionHandler({ ConnectException.class })
-//	public ResponseEntity<?> handleRunTimeException(ConnectException e) {
-//		return new ResponseEntity<>(
-//				generateCustomErrorResponse("The service couldn't reach the server: " + e.getMessage()),
-//				HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
 
 	@ExceptionHandler({ Exception.class })
-	public ResponseEntity<?> handleRunTimeException(Exception e) {
+	public ResponseEntity<?> handleException(Exception e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler({ InvalidParameterException.class, InsertingOrchestrationException.class, ImportFileInvalid.class,
-			StorageDTONullabilyException.class })
-	public ResponseEntity<?> handleImportFileInvalid(Exception e) {
+	@ExceptionHandler({ BaseInternalException.class })
+	public ResponseEntity<?> handleBaseInternalException(Exception e) {
 		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.EXPECTATION_FAILED);
+	}
+	
+	@ExceptionHandler({ ExternalServiceHttpException.class })
+	public ResponseEntity<?> handleExternalServiceHttpException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.BAD_GATEWAY);
+	}
+	
+	@ExceptionHandler({ ExternalServiceUnavailableException.class })
+	public ResponseEntity<?> handleExternalServiceUnavailableException(Exception e) {
+		return new ResponseEntity<>(generateCustomErrorResponse(e), HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 }

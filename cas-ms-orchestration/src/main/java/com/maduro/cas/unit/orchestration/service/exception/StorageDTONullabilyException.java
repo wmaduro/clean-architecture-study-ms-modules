@@ -1,6 +1,8 @@
 package com.maduro.cas.unit.orchestration.service.exception;
 
-public class StorageDTONullabilyException extends RuntimeException {
+import com.maduro.cas.core.exception.base.BaseInternalException;
+
+public class StorageDTONullabilyException extends BaseInternalException {
 
 	public StorageDTONullabilyException() {
 		super("StorageDTO cannot be null");

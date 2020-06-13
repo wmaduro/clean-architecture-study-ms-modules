@@ -58,7 +58,6 @@ public class OrchestrationService {
 			throw new InsertingOrchestrationException();
 		}
 
-//		idStorageReference = 1000000L;
 		FileParserDTO fileParserDTO = fileParseRequest.processFileParser(new StorageDTO(idStorageReference.toString()));
 
 		HandMapperDTO handMapperDTO = handMapperRequest.processHandMapper(fileParserDTO);

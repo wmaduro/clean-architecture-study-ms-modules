@@ -1,6 +1,8 @@
 package com.maduro.cas.unit.orchestration.service.exception;
 
-public class InvalidParameterException extends RuntimeException {
+import com.maduro.cas.core.exception.base.BaseInternalException;
+
+public class InvalidParameterException extends BaseInternalException {
 
 	public InvalidParameterException() {
 		super("File must be provided");
