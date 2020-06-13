@@ -1,78 +1,75 @@
 
+
 # Clean Architecture Study Series
 
 The same content described at https://github.com/wmaduro/clean-architecture-study/tree/master-sync.
 
 ## Episodes
-- Episode I: Service/DTO Model (Synchronicity) - https://github.com/wmaduro/clean-architecture-study/tree/master-sync
-- Episode II: Service/DTO Model (EventBus) - https://github.com/wmaduro/clean-architecture-study/tree/master-eventbus
-- **Episode III: Microservices - (WE ARE HERE...)**  
+- Episode I: Java SE - Service/DTO Model (Synchronicity) - https://github.com/wmaduro/clean-architecture-study/tree/master-sync
+- Episode II: Java SE - Service/DTO Model (EventBus) - https://github.com/wmaduro/clean-architecture-study/tree/master-eventbus
+- **Episode III: SpringBoot Services (RESTFUL / Blocking) - (WE ARE HERE...)** 
+- Episode IV: SpringBoot Cloud MicroServices (RESTFUL / Non-Blocking) - (Coming Soon..)  
 
 ## The Problem 
 
 The same content described at https://github.com/wmaduro/clean-architecture-study/tree/master-sync.
 
-# Episode III: Microservices 
+# Episode III: SpringBoot Services (RESTFUL - Blocking)
 
-The main idea is to breakdown the problem above in small units (Services). Each unit produces its output object (DTO) and post it as an event in the EventBus. 
+In this episode, we have implemented the services using SpringBoot. All communication among them use REST and blocking approach.
+The "cas-ms-orchestration" project is the main user's endpoint provider.  It is responsible to orchestrate the right order for all related services.
 
 ### Project Overview
 
 ![alt text](https://raw.githubusercontent.com/wmaduro/clean-architecture-study-ms-modules/master/md-files/overview.svg)
 
-### Decoupled Units
+### Services (Units)
 
-The main problem was separated into smaller "units" to establish concise and clear boundaries.  
+>### cas-ms-storage
+-  StorageService: Provide services to store and retrieve file contents.
+      
+>### cas-ms-orchestration
+- OrchestrationService: Orchestrate the statistic calculation from file data. 
+- ResultService: Retrive the evaluation outcome.
 
-**Folder Unit (FolderMonitorService)**
-- Responsibility: Watch the content of a folder and process the csv files when available.
-- Produce: List of files to be processed.
+>### cas-ms-file-parser
+-  FileParserService: Process the file content and parse the lines to a list of hand's objects.
 
-**File Unit (FileParserService)**
-- Responsibility: Process the file content and parse the lines to a list of hand's objects.
-- Consume: Outcome of "Folder Unit".
-- Produce: List of hand's objects.
+>### cas-ms-hand-mapper
+-  HandMapperService: Organize the hand's objects in blocks per hand code.
 
-**All the other units are the same already described at https://github.com/wmaduro/clean-architecture-study/tree/master-sync.**
+>### cas-ms-hand-evaluator
+-  HandEvaluatorService:
+    -   Identify the best cards in the hand.
+    -   Evaluate if the best card had won the hand.
+    -   Filter the content by player name and/or aggressivity behaviour (optional).
+
 
 ### Tests
 
-The principle here is: "Each test must be atomic". So, It must have run in a completely independent environment (when necessary, creating its resources).
+...
 
 - **Unit Tests**
 
-    The unit tests aimed to cover each "service" scenario and all of its exceptions.
+...
 
 - **Integrated Tests** (Not implemented yet*)
-
-    The integrated test is responsible for:
-    
-    - Create the simulation's input file.
-    - Process all services in the right order.
-    - Evaluate the outcome.
+...
 
 ## How to run
 
 ### Requirement(s)
-- **GIT**
-- **JDK 8+**
+- **DOCKER**
 
-### Step by Step (LINUX)
-1. Clone the repository: **git clone -b master-eventbus https://github.com/wmaduro/clean-architecture-study.git**
-2. Jump into the project folder: **cd clean-architecture-study**
-3. Change permission: **chmod +x mvnw**
-4. Compile using built-in maven  (notice that all unit tests will be triggered): **./mvnw clean compile package**
-5. Run: **java -cp 'target/lib/*:target/clean-architecture-study-0.0.1-SNAPSHOT-jar-with-dependencies.jar' com.maduro.poker.ClenArchitectureStudyApplication 
-   ./samples-files**
-
-If you want, you can change the parameter (line 5) and set your own folder. After that, create the "csv" files in it.
+### Step by Step 
+1. ...
 
 
 Optionally, you can import the project in Eclipse 4+ with maven plugins installed. 
 
 ## Backlog
 
-1. Implement the integrated test.
+1. ...
 
 
 
