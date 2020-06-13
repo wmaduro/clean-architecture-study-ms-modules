@@ -1,4 +1,4 @@
-package com.maduro.cas.unit.orchestration.service.exception;
+package com.maduro.cas.unit.orchestration.service.exception.internal;
 
 public class InvalidParameterException extends RuntimeException {
 

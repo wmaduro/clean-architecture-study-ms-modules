@@ -4,14 +4,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.unit.orchestration.dto.HandEvaluatorDTO;
 import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
+import com.maduro.cas.unit.orchestration.service.exception.base.enums.ExternalServiceEnum;
+import com.maduro.cas.unit.orchestration.service.network.base.BaseRequest;
 
-@Component
+
 public class HandEvaluatorRequest extends BaseRequest {
+
+	public HandEvaluatorRequest(ExternalServiceEnum externalServiceEnum) {
+		super(externalServiceEnum);	
+	}
 
 	@Value(value = "${cas-ms.service.hand-evaluator.port}")
 	public void setPort(String port) {
@@ -22,7 +27,7 @@ public class HandEvaluatorRequest extends BaseRequest {
 		if (handMapperDTO == null) {
 			return null;
 		}
-		Optional<Object> oResult = this.sendBlockRequest(handMapperDTO, "/hand-evaluator", HttpMethod.POST);
+		Optional<HandEvaluatorDTO> oResult = this.sendBlockRequest(HandEvaluatorDTO.class, handMapperDTO, "/hand-evaluator", HttpMethod.POST);
 				
 		HandEvaluatorDTO handEvaluatorDTO = null;
 		if (oResult.isPresent()) {
