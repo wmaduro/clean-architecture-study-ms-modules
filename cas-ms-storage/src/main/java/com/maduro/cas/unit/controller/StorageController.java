@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maduro.cas.unit.domain.FileContent;
-import com.maduro.cas.unit.service.FileContentService;
+import com.maduro.cas.unit.service.StorageService;
 
 @RestController
-@RequestMapping(path = "/file-content")
-public class FileContentController {
+@RequestMapping(path = "/storage")
+public class StorageController {
 
 	@Autowired
-	private FileContentService fileContentService;
+	private StorageService storageService;
 
 	@PostMapping(consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE )
 	public Long saveContent(@RequestBody byte[] content) {
-		return fileContentService.save(content);
+		return storageService.save(content);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-		Optional<FileContent> oFileContent = fileContentService.findById(id);
+		Optional<FileContent> oFileContent = storageService.findById(id);
 		if (!oFileContent.isPresent()) {
 			return ResponseEntity.noContent().build();
 		}

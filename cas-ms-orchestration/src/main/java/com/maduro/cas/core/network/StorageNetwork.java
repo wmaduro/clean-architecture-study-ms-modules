@@ -22,7 +22,7 @@ public class StorageNetwork extends BaseNetwork {
 
 	public Long saveStorage(byte[] content) {
 		
-		Optional<Number> oResult = this.sendBlockRequest(Number.class, content, "/file-content", HttpMethod.POST);
+		Optional<Number> oResult = this.sendBlockRequest(Number.class, content, "/storage", HttpMethod.POST);
 		
 		return oResult.isPresent() ? oResult.get().longValue() : null;
 	

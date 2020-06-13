@@ -22,7 +22,7 @@ public class StorageNetwork extends BaseNetwork {
 
 	public byte[] loadFromStorage(StorageDTO storageDTO) {
 
-		final String fullPath = "/file-content/" + storageDTO.getFileReference();
+		final String fullPath = "/storage/" + storageDTO.getFileReference();
 
 		Optional<byte[]> oResult = this.sendBlockRequest(byte[].class, storageDTO, fullPath, HttpMethod.GET);
 

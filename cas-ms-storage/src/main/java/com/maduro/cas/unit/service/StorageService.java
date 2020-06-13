@@ -10,7 +10,7 @@ import com.maduro.cas.unit.repository.FileContentRepository;
 import com.maduro.cas.unit.service.exception.DatabaseNotAvailableException;
 
 @Service
-public class FileContentService {
+public class StorageService {
 
 	@Autowired
 	private FileContentRepository fileContentRepository;
