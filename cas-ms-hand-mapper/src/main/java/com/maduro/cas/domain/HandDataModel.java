@@ -1,8 +1,5 @@
 package com.maduro.cas.domain;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -33,40 +30,4 @@ public class HandDataModel {
 	private String show_down;
 	private String level;
 
-	public Double parseValueWonToDouble() {
-		return (this.getValue_won() == null || this.getValue_won().isEmpty()) ? 0.
-				: Double.parseDouble(this.getValue_won());
-	}
-
-	public boolean hasAllValidFields() {
-
-		boolean[] return_ = { true };
-
-		try {
-			Field[] notNullFields = { this.getClass().getDeclaredField("game") };
-
-			Arrays.asList(notNullFields).forEach(field -> {
-				boolean accessible = field.isAccessible();// canAccess(this);
-				field.setAccessible(true);
-
-				try {
-					Object value = field.get(this);
-
-					if (value == null) {
-						return_[0] = false;
-						return;
-					}
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
-
-				field.setAccessible(accessible);
-			});
-
-		} catch (NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
-		}
-
-		return return_[0];
-	}
 }
