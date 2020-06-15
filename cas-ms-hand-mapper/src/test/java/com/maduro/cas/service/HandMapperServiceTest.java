@@ -2,12 +2,13 @@ package com.maduro.cas.service;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import com.maduro.cas.domain.HandDataModel;
 import com.maduro.cas.dto.FileParserDTO;
 import com.maduro.cas.dto.HandMapperDTO;
-import com.maduro.cas.service.util.HandMapperServiceUtils;
 
 class HandMapperServiceTest {
 
@@ -22,13 +23,12 @@ class HandMapperServiceTest {
 	}
 	
 	@Test
-	void must_FileParserDTO_Process_Successfuly() throws Exception {
+	void must_ProcessFileParserDTO_Successfuly() throws Exception {
 
 		FileParserDTO fileParserDTO = HandMapperServiceUtils.getFileParserDTOWithOneHand();
 
 		HandMapperDTO handMapperDTO = handMapperService.process(fileParserDTO);
 
-		//validate
 		HandDataModel firstHandDataModel = fileParserDTO.getHandDataModelList().get(0);
 		boolean testConditions = handMapperDTO.getHandDataModelMap().size() == 1
 				&& handMapperDTO.getHandDataModelMap().get(firstHandDataModel.getHand()).size() == 2;
@@ -36,4 +36,22 @@ class HandMapperServiceTest {
 		assertTrue(testConditions);
 	}
 	
+}
+
+class HandMapperServiceUtils {
+
+	public static FileParserDTO getFileParserDTOWithOneHand() throws Exception {
+
+		FileParserDTO fileParserDTO = new FileParserDTO();
+		List<HandDataModel> handDataModels = 
+				List.of(HandDataModel.builder().game("1").hand("1").build(), 
+						HandDataModel.builder().game("1").hand("1").build());
+
+		handDataModels.forEach(handDataModel -> {
+			fileParserDTO.addHandDataModel(handDataModel);	
+		});
+
+		return fileParserDTO;
+
+	}
 }

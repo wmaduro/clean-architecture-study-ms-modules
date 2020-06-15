@@ -30,7 +30,7 @@ public class HandMapperServiceIT {
 	}
 	
 	@Test
-	void must_ContainValid_WhenProcessFileParser() throws Exception {
+	void must_Return200_WhenProcessFileParserDTO() throws Exception {
 		
 		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand("1").build(),
 				HandDataModel.builder().game("1").hand("1").build()); 
