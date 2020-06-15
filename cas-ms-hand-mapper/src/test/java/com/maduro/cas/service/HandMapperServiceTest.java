@@ -25,15 +25,15 @@ class HandMapperServiceTest {
 	void must_FileParserDTO_Process_Successfuly() throws Exception {
 
 		FileParserDTO fileParserDTO = HandMapperServiceUtils.getFileParserDTOWithOneHand();
+
 		HandMapperDTO handMapperDTO = handMapperService.process(fileParserDTO);
 
-		assertTrue(validateOutcome(fileParserDTO, handMapperDTO));
-
-	}
-
-	private boolean validateOutcome(FileParserDTO fileParserDTO, HandMapperDTO handMapperDTO) {
+		//validate
 		HandDataModel firstHandDataModel = fileParserDTO.getHandDataModelList().get(0);
-		return handMapperDTO.getHandDataModelMap().size() == 1
+		boolean testConditions = handMapperDTO.getHandDataModelMap().size() == 1
 				&& handMapperDTO.getHandDataModelMap().get(firstHandDataModel.getHand()).size() == 2;
+
+		assertTrue(testConditions);
 	}
+	
 }
