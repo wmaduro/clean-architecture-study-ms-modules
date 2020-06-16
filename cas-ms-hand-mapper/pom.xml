@@ -13,7 +13,6 @@
 	<artifactId>cas-ms-hand-mapper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cas-ms-file-parser</name>
-	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>13</java.version>

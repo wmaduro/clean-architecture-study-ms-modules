@@ -25,14 +25,6 @@ public class HandMapperServiceIT {
 	@Test
 	void must_Return200_WhenProcessFileParserDTO() throws Exception {
 		
-		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand(handReference).build(),
-				HandDataModel.builder().game("1").hand(handReference).build()); 
-		
-		FileParserDTO fileParserDTO = new FileParserDTO();
-		handDataModels.forEach(handDataModel -> {
-			fileParserDTO.addHandDataModel(handDataModel);	
-		});
-	
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured
 			.given()
@@ -40,7 +32,7 @@ public class HandMapperServiceIT {
 				.basePath("/hand-mapper")
 				.accept(ContentType.JSON)
 				.contentType("application/json")
-				.body(fileParserDTO)
+				.body(prepareData())
 			.when()
 				.post()
 			.then()
@@ -49,4 +41,16 @@ public class HandMapperServiceIT {
 		
 	}
 	
+	private FileParserDTO prepareData() {
+
+		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand(handReference).build(),
+				HandDataModel.builder().game("1").hand(handReference).build()); 
+		
+		FileParserDTO fileParserDTO = new FileParserDTO();
+		handDataModels.forEach(handDataModel -> {
+			fileParserDTO.addHandDataModel(handDataModel);	
+		});
+	
+		return fileParserDTO;
+	}
 }
