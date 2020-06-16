@@ -1,11 +1,12 @@
 package com.maduro.cas.unit.dto;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class StorageDTO {
-
-	@Getter
 	private String fileReference = null;
-
-
 }

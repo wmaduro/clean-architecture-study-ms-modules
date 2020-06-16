@@ -2,7 +2,6 @@ package com.maduro.cas.unit.service;
 
 import java.lang.reflect.Field;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maduro.cas.core.network.StorageNetwork;
@@ -13,8 +12,11 @@ import com.maduro.cas.unit.dto.StorageDTO;
 @Service
 public class FileParserService {
 
-	@Autowired
 	private StorageNetwork storageNetwork;
+	
+	public FileParserService(StorageNetwork storageNetwork) {
+		this.storageNetwork = storageNetwork;
+	}
 
 	public FileParserDTO processStorage(StorageDTO storageDTO) throws Exception {
 
