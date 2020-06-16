@@ -20,28 +20,24 @@ public class HandMapperServiceIT {
 
 	@LocalServerPort
 	private int port;
-	
-	@BeforeEach
-	void setUp() throws Exception {
-		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-		
-		RestAssured.port = port;
-		RestAssured.basePath ="/hand-mapper";
-	}
+	private final String handReference = "1";
 	
 	@Test
 	void must_Return200_WhenProcessFileParserDTO() throws Exception {
 		
-		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand("1").build(),
-				HandDataModel.builder().game("1").hand("1").build()); 
+		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand(handReference).build(),
+				HandDataModel.builder().game("1").hand(handReference).build()); 
 		
 		FileParserDTO fileParserDTO = new FileParserDTO();
 		handDataModels.forEach(handDataModel -> {
 			fileParserDTO.addHandDataModel(handDataModel);	
 		});
-		
+	
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured
 			.given()
+				.port(port)
+				.basePath("/hand-mapper")
 				.accept(ContentType.JSON)
 				.contentType("application/json")
 				.body(fileParserDTO)
@@ -49,7 +45,7 @@ public class HandMapperServiceIT {
 				.post()
 			.then()
 				.statusCode(HttpStatus.OK.value())
-				.body("handDataModelMap", Matchers.hasKey("1"));
+				.body("handDataModelMap", Matchers.hasKey(handReference));
 		
 	}
 	
