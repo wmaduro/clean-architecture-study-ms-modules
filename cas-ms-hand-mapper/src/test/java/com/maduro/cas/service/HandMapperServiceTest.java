@@ -12,46 +12,35 @@ import com.maduro.cas.dto.HandMapperDTO;
 
 class HandMapperServiceTest {
 
-	private HandMapperService handMapperService = new HandMapperService();
-
 	@Test
-	void must_Process_Return_Null() throws Exception {
+	public void must_ProcessFileParserDTO_Successfuly() throws Exception {
 
-		HandMapperDTO handMapperDTO = handMapperService.process(null);
-		assertTrue(handMapperDTO == null);
+		FileParserDTO fileParserDTO = prepareTestData();
+		
+		HandMapperDTO handMapperDTO = new HandMapperService().process(fileParserDTO);
 
+		assertTrue(validateOutcome(fileParserDTO, handMapperDTO));
 	}
-	
-	@Test
-	void must_ProcessFileParserDTO_Successfuly() throws Exception {
 
-		FileParserDTO fileParserDTO = HandMapperServiceUtils.getFileParserDTOWithOneHand();
-
-		HandMapperDTO handMapperDTO = handMapperService.process(fileParserDTO);
-
-		HandDataModel firstHandDataModel = fileParserDTO.getHandDataModelList().get(0);
-		boolean testConditions = handMapperDTO.getHandDataModelMap().size() == 1
-				&& handMapperDTO.getHandDataModelMap().get(firstHandDataModel.getHand()).size() == 2;
-
-		assertTrue(testConditions);
-	}
-	
-}
-
-class HandMapperServiceUtils {
-
-	public static FileParserDTO getFileParserDTOWithOneHand() throws Exception {
+	private FileParserDTO prepareTestData() throws Exception {
 
 		FileParserDTO fileParserDTO = new FileParserDTO();
-		List<HandDataModel> handDataModels = 
-				List.of(HandDataModel.builder().game("1").hand("1").build(), 
-						HandDataModel.builder().game("1").hand("1").build());
+		List<HandDataModel> handDataModels = List.of(HandDataModel.builder().game("1").hand("1").build(),
+				HandDataModel.builder().game("1").hand("1").build());
 
 		handDataModels.forEach(handDataModel -> {
-			fileParserDTO.addHandDataModel(handDataModel);	
+			fileParserDTO.addHandDataModel(handDataModel);
 		});
 
 		return fileParserDTO;
+
+	}
+
+	private boolean validateOutcome(FileParserDTO fileParserDTO, HandMapperDTO handMapperDTO) {
+
+		HandDataModel firstHandDataModel = fileParserDTO.getHandDataModelList().get(0);
+		return handMapperDTO.getHandDataModelMap().size() == 1
+				&& handMapperDTO.getHandDataModelMap().get(firstHandDataModel.getHand()).size() == 2;
 
 	}
 }
