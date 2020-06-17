@@ -2,9 +2,9 @@ package com.maduro.cas.unit.orchestration.service.exception;
 
 import com.maduro.cas.core.exception.base.BaseInternalException;
 
-public class ImportFileInvalid extends BaseInternalException {
+public class ImportFileInvalidException extends BaseInternalException {
 
-	public ImportFileInvalid() {
+	public ImportFileInvalidException() {
 		super("Error getting bytes of a file");
 	}
 

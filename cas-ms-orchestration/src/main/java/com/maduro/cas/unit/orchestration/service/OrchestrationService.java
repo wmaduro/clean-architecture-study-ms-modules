@@ -2,7 +2,6 @@ package com.maduro.cas.unit.orchestration.service;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,39 +16,42 @@ import com.maduro.cas.unit.orchestration.dto.HandMapperDTO;
 import com.maduro.cas.unit.orchestration.dto.OrchestrationDTO;
 import com.maduro.cas.unit.orchestration.dto.StorageDTO;
 import com.maduro.cas.unit.orchestration.repository.OrchestrationRepository;
-import com.maduro.cas.unit.orchestration.service.exception.ImportFileInvalid;
+import com.maduro.cas.unit.orchestration.service.exception.ImportFileInvalidException;
 import com.maduro.cas.unit.orchestration.service.exception.InsertingOrchestrationException;
 import com.maduro.cas.unit.orchestration.service.exception.InvalidParameterException;
 
 @Service
 public class OrchestrationService {
 
-	@Autowired
 	private OrchestrationRepository orchestratorRepository;
-
-	@Autowired
 	private StorageNetwork storageNetwork;
-
-	@Autowired
 	private FileParseNetwork fileParseNetwork;
-
-	@Autowired
 	private HandMapperNetwork handMapperNetwork;
-
-	@Autowired
 	private HandEvaluatorNetwork handEvaluatorNetwork;
+
+	public OrchestrationService(OrchestrationRepository orchestratorRepository, StorageNetwork storageNetwork,
+			FileParseNetwork fileParseNetwork, HandMapperNetwork handMapperNetwork,
+			HandEvaluatorNetwork handEvaluatorNetwork) {
+		
+		this.orchestratorRepository = orchestratorRepository;
+		this.storageNetwork = storageNetwork;
+		this.fileParseNetwork = fileParseNetwork;
+		this.handMapperNetwork = handMapperNetwork;
+		this.handEvaluatorNetwork = handEvaluatorNetwork;
+	
+	}
 
 	public OrchestrationDTO processFile(final MultipartFile file) {
 
 		if (file == null) {
 			throw new InvalidParameterException();
 		}
-	
+
 		Long idStorageReference;
 		try {
 			idStorageReference = storageNetwork.saveStorage(file.getBytes());
 		} catch (IOException e) {
-			throw new ImportFileInvalid();
+			throw new ImportFileInvalidException();
 		}
 
 		Orchestration orchestration = orchestratorRepository
@@ -71,7 +73,7 @@ public class OrchestrationService {
 	}
 
 	private void saveResult(Orchestration orchestration, HandEvaluatorDTO handEvaluatorDTO) {
-		
+
 		if (orchestration == null || handEvaluatorDTO == null
 				|| handEvaluatorDTO.getGameCrititalHandDataModelList().isEmpty()) {
 			return;
