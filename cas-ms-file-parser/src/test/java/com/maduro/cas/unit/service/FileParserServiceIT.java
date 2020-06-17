@@ -21,11 +21,10 @@ import io.restassured.http.ContentType;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FileParserServiceIT {
 
-	private final String STORAGE_PATH = "/storage/";
 	@LocalServerPort
 	private int port;
-	final private String idSimulated = "1";
-	private ClientAndServer clientAndServer;
+	private ClientAndServer clientAndServerStorage;
+	final String idSimulated = "1";
 	
 	@BeforeEach
 	void postConstruct() {
@@ -34,17 +33,21 @@ class FileParserServiceIT {
 
 	@AfterEach
 	void stopServer() {
-		clientAndServer.stop();
+		if (clientAndServerStorage != null) {
+			clientAndServerStorage.stop();
+		}
 	}
 
 	void startStorageApiMock() {
 
+		final String STORAGE_PATH = "/storage/";
+		
 		final String data = "\"game\",\"hand\",\"hand_position\",\"user_name\",\"card_sequence\",\"value_won\",\"board\",\"all_in_action_street\",\"action_pre_flop\",\"value_action_pre_flop\",\"action_flop\",\"value_action_flop\",\"action_turn\",\"value_action_turn\",\"action_river\",\"value_action_river\",\"bb\",\"street_ended\",\"show_down\",\"level\"\n"
 				+ "\"2655675429   \",\"202713458879 \",2,zloipitbull2212,\"9c 9s\",,,PRE_FLOP,CALL,4660,,,,,,,61,RIVER,true,5\n"
 				+ "\"2655675429   \",\"202713458879 \",2,wmaduro,Ts Tc,10170,,PRE_FLOP,RAISE,4900,,,,,,,61,RIVER,true,5\n";
 
-		clientAndServer = ClientAndServer.startClientAndServer(20005);
-		clientAndServer
+		clientAndServerStorage = ClientAndServer.startClientAndServer(20005);
+		clientAndServerStorage
 			.when(request().withMethod("GET").withPath(STORAGE_PATH + idSimulated))
 			.respond(response()
 						.withStatusCode(200)

@@ -18,6 +18,7 @@
 	<properties>
 		<java.version>13</java.version>
 		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+		<mockserver-netty.version>3.10.8</mockserver-netty.version>
 	</properties>
 
 	<dependencies>
@@ -25,7 +26,7 @@
 		<dependency>
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-netty</artifactId>
-			<version>3.10.8</version>
+			<version>${mockserver-netty.version}</version>
 		</dependency>
 
 		<dependency>
