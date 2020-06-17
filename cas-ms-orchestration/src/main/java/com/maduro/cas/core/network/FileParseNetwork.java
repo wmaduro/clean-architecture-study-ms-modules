@@ -18,6 +18,7 @@ public class FileParseNetwork extends BaseNetwork {
 		super(externalServiceEnum);
 	}
 
+	@Override
 	@Value(value = "${cas-ms.service.file-parser.port}")
 	public void setPort(String port) {
 		super.setPort(port);

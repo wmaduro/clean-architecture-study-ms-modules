@@ -17,6 +17,7 @@ public class HandMapperNetwork extends BaseNetwork {
 		super(externalServiceEnum);
 	}
 
+	@Override
 	@Value(value = "${cas-ms.service.hand-mapper.port}")
 	public void setPort(String port) {
 		super.setPort(port);

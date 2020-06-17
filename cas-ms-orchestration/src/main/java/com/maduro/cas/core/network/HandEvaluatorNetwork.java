@@ -18,6 +18,7 @@ public class HandEvaluatorNetwork extends BaseNetwork {
 		super(externalServiceEnum);	
 	}
 
+	@Override
 	@Value(value = "${cas-ms.service.hand-evaluator.port}")
 	public void setPort(String port) {
 		super.setPort(port);

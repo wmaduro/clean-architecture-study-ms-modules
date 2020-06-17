@@ -15,6 +15,7 @@ public class StorageNetwork extends BaseNetwork {
 		super(externalServiceEnum);
 	}
 
+	@Override
 	@Value(value = "${cas-ms.service.storage.port}")
 	public void setPort(String port) {
 		super.setPort(port);
