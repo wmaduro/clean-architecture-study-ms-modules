@@ -1,7 +1,5 @@
 package com.maduro.cas.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
