@@ -1,0 +1,10 @@
+cd ../cas-ms-file-parser
+./mvnw verify
+cd ../cas-ms-orchestration
+./mvnw verify
+cd ../cas-ms-hand-mapper
+./mvnw verify
+cd ../cas-ms-hand-evaluator
+./mvnw verify
+cd ../cas-ms-storage
+./mvnw verify
