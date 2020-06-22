@@ -23,6 +23,12 @@ public class FileParseNetwork extends BaseNetwork {
 	public void setPort(String port) {
 		super.setPort(port);
 	}
+	
+	@Override
+	@Value(value = "${cas-ms.service.file-parser.host}")
+	public void setHost(String host) {
+		super.setHost(host);
+	}
 
 	public FileParserDTO processFileParser(StorageDTO storageDTO) {
 		

@@ -27,8 +27,8 @@ public abstract class BaseNetwork {
 
 	@Value(value = "${cas-ms.protocol}")
 	private String protocol="http";
-	@Value(value = "${cas-ms.host}")
-	private String host="localhost";
+	@Setter
+	private String host;
 	@Setter
 	private String port;
 	

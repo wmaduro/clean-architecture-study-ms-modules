@@ -22,6 +22,12 @@ public class HandMapperNetwork extends BaseNetwork {
 	public void setPort(String port) {
 		super.setPort(port);
 	}
+	
+	@Override
+	@Value(value = "${cas-ms.service.hand-mapper.host}")
+	public void setHost(String host) {
+		super.setHost(host);
+	}
 
 	public HandMapperDTO processHandMapper(FileParserDTO fileParserDTO) {
 		if (fileParserDTO == null) {

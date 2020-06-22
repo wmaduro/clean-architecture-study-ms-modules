@@ -23,6 +23,13 @@ public class HandEvaluatorNetwork extends BaseNetwork {
 	public void setPort(String port) {
 		super.setPort(port);
 	}
+	
+	@Override
+	@Value(value = "${cas-ms.service.hand-evaluator.host}")
+	public void setHost(String host) {
+		super.setHost(host);
+	}
+
 
 	public HandEvaluatorDTO processHandEvaluator(HandMapperDTO handMapperDTO) {
 		if (handMapperDTO == null) {
