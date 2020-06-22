@@ -1,0 +1,65 @@
+version: '3'
+services:
+    cas-ms-storage:
+        build:
+            context: ../cas-ms-storage
+            dockerfile: Dockerfile
+        image: maduro/cas-ms-storage:latest
+        expose:
+            - 20005
+        ports:
+            - 20005:20005
+            
+    cas-ms-file-parser:
+        build:
+            context: ../cas-ms-file-parser
+            dockerfile: Dockerfile
+        image: maduro/cas-ms-file-parser:latest
+        environment:
+            - CAS_MS_STORAGE_HOST=cas-ms-storage
+            - CAS_MS_STORAGE_PORT=20005
+        expose:
+            - 20004
+        ports:
+            - 20004:20004
+            
+    cas-ms-hand-evaluator:
+        build:
+            context: ../cas-ms-hand-evaluator
+            dockerfile: Dockerfile
+        image: maduro/cas-ms-hand-evaluator:latest
+        expose:
+            - 20007
+        ports:
+            - 20007:20007            
+
+    cas-ms-hand-mapper:
+        build:
+            context: ../cas-ms-hand-mapper
+            dockerfile: Dockerfile
+        image: maduro/cas-ms-hand-mapper:latest
+        expose:
+            - 20006
+        ports:
+            - 20006:20006            
+            
+    cas-ms-orchestration:
+        build:
+            context: ../cas-ms-orchestration
+            dockerfile: Dockerfile
+        image: maduro/cas-ms-orchestration:latest
+        environment:
+            - CAS_MS_STORAGE_HOST=cas-ms-storage
+            - CAS_MS_STORAGE_PORT=20005
+            - CAS_MS_HAND_EVALUATOR_HOST=cas-ms-hand-evaluator
+            - CAS_MS_HAND_EVALUATOR_PORT=20007
+            - CAS_MS_HAND_MAPPER_HOST=cas-ms-hand-mapper
+            - CAS_MS_HAND_MAPPER_PORT=20006
+            - CAS_MS_FILE_PARSER_HOST=cas-ms-file-parser
+            - CAS_MS_FILE_PARSER_PORT=20004
+            - CAS_MS_ORCHESTRATION_PORT=20003
+        expose:
+            - 20003
+        ports:
+            - 20003:20003             
+            
