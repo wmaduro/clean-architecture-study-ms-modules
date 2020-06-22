@@ -20,7 +20,13 @@ public class StorageNetwork extends BaseNetwork {
 	public void setPort(String port) {
 		super.setPort(port);
 	}
-
+	
+	@Override
+	@Value(value = "${cas-ms.service.storage.host}")
+	public void setHost(String host) {
+		super.setHost(host);
+	}
+	
 	public byte[] loadFromStorage(StorageDTO storageDTO) {
 
 		final String fullPath = "/storage/" + storageDTO.getFileReference();
