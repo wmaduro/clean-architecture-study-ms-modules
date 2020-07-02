@@ -68,7 +68,7 @@ public class OrchestrationService {
 
 		saveResult(orchestration, handEvaluatorDTO);
 
-		return OrchestrationDTO.builder().id(orchestration.getId().toString()).build();
+		return OrchestrationDTO.builder().id(orchestration.getId().toString()).version("1.0.0").build();
 
 	}
 

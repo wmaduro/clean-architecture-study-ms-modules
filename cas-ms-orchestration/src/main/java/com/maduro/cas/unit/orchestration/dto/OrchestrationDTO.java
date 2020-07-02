@@ -7,4 +7,5 @@ import lombok.Data;
 @Builder
 public class OrchestrationDTO {
 	private String id;
+	private String version="v1.0.0";
 }
