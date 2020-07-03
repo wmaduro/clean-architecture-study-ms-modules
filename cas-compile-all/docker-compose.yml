@@ -4,7 +4,7 @@ services:
         build:
             context: ../cas-ms-storage
             dockerfile: Dockerfile
-        image: maduro/cas-ms-storage:latest
+        image: wmaduro/cas-ms-storage:latest
         expose:
             - 20005
         ports:
@@ -14,7 +14,7 @@ services:
         build:
             context: ../cas-ms-file-parser
             dockerfile: Dockerfile
-        image: maduro/cas-ms-file-parser:latest
+        image: wmaduro/cas-ms-file-parser:latest
         environment:
             - CAS_MS_STORAGE_HOST=cas-ms-storage
             - CAS_MS_STORAGE_PORT=20005
@@ -27,7 +27,7 @@ services:
         build:
             context: ../cas-ms-hand-evaluator
             dockerfile: Dockerfile
-        image: maduro/cas-ms-hand-evaluator:latest
+        image: wmaduro/cas-ms-hand-evaluator:latest
         expose:
             - 20007
         ports:
@@ -37,7 +37,7 @@ services:
         build:
             context: ../cas-ms-hand-mapper
             dockerfile: Dockerfile
-        image: maduro/cas-ms-hand-mapper:latest
+        image: wmaduro/cas-ms-hand-mapper:latest
         expose:
             - 20006
         ports:
@@ -47,7 +47,7 @@ services:
         build:
             context: ../cas-ms-orchestration
             dockerfile: Dockerfile
-        image: maduro/cas-ms-orchestration:latest
+        image: wmaduro/cas-ms-orchestration:latest
         environment:
             - CAS_MS_STORAGE_HOST=cas-ms-storage
             - CAS_MS_STORAGE_PORT=20005
