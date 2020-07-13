@@ -1,4 +1,3 @@
-
 # Clean Architecture Study Series
 
 ## Episodes
