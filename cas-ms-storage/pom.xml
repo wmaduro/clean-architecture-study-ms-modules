@@ -16,11 +16,18 @@
 
 	<properties>
 		<modelmapper.version>2.3.0</modelmapper.version>
-		<java.version>13</java.version>
+		<java.version>11</java.version>
 		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
+	
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>6.4</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
