@@ -1,65 +1,135 @@
-version: '3'
+version: '3.5'
 services:
-    cas-ms-storage:
-        build:
-            context: ../cas-ms-storage
-            dockerfile: Dockerfile
-        image: wmaduro/cas-ms-storage:latest
-        expose:
-            - 20005
-        ports:
-            - 20005:20005
-            
-    cas-ms-file-parser:
-        build:
-            context: ../cas-ms-file-parser
-            dockerfile: Dockerfile
-        image: wmaduro/cas-ms-file-parser:latest
-        environment:
-            - CAS_MS_STORAGE_HOST=cas-ms-storage
-            - CAS_MS_STORAGE_PORT=20005
-        expose:
-            - 20004
-        ports:
-            - 20004:20004
-            
-    cas-ms-hand-evaluator:
-        build:
-            context: ../cas-ms-hand-evaluator
-            dockerfile: Dockerfile
-        image: wmaduro/cas-ms-hand-evaluator:latest
-        expose:
-            - 20007
-        ports:
-            - 20007:20007            
 
-    cas-ms-hand-mapper:
-        build:
-            context: ../cas-ms-hand-mapper
-            dockerfile: Dockerfile
-        image: wmaduro/cas-ms-hand-mapper:latest
-        expose:
-            - 20006
-        ports:
-            - 20006:20006            
+############  INFRASTRUCTURE - LOGSTASH 
+
+   elasticsearch:
+      image: elasticsearch:7.6.2
+      container_name: elasticsearch
+      ports:
+         - 9200:9200
+         - 9300:9300
+      networks: 
+         - cas-network
+      environment:
+         - discovery.type=single-node
+         
+   logstash:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/logstash/logstash:7.6.2
+      container_name: logstash
+      ports:
+         - 5000:5000
+      networks: 
+         - cas-network
+      volumes: 
+         - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+
+   kibana:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/kibana/kibana:7.6.2
+      container_name: kibana
+      ports:
+         - 5601:5601
+      networks: 
+         - cas-network
+      links:
+         - elasticsearch
+
+############  CAS-SERVICES      
+
+   cas-ms-storage:
+      depends_on: 
+         - logstash
+      container_name: cas-ms-storage
+      build:
+         context: ../cas-ms-storage
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-storage:latest
+      expose:
+         - 20005
+      ports:
+         - 20005:20005
+      networks: 
+         - cas-network
             
-    cas-ms-orchestration:
-        build:
-            context: ../cas-ms-orchestration
-            dockerfile: Dockerfile
-        image: wmaduro/cas-ms-orchestration:latest
-        environment:
-            - CAS_MS_STORAGE_HOST=cas-ms-storage
-            - CAS_MS_STORAGE_PORT=20005
-            - CAS_MS_HAND_EVALUATOR_HOST=cas-ms-hand-evaluator
-            - CAS_MS_HAND_EVALUATOR_PORT=20007
-            - CAS_MS_HAND_MAPPER_HOST=cas-ms-hand-mapper
-            - CAS_MS_HAND_MAPPER_PORT=20006
-            - CAS_MS_FILE_PARSER_HOST=cas-ms-file-parser
-            - CAS_MS_FILE_PARSER_PORT=20004
-            - CAS_MS_ORCHESTRATION_PORT=20003
-        expose:
-            - 20003
-        ports:
-            - 20003:20003             
+   cas-ms-file-parser:
+      depends_on: 
+         - logstash   
+      container_name: cas-ms-file-parser
+      build:
+         context: ../cas-ms-file-parser
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-file-parser:latest
+      environment:
+         - CAS_MS_STORAGE_HOST=cas-ms-storage
+         - CAS_MS_STORAGE_PORT=20005
+      expose:
+         - 20004
+      ports:
+         - 20004:20004
+      networks: 
+         - cas-network
+               
+   cas-ms-hand-evaluator:
+      depends_on: 
+         - logstash   
+      container_name: cas-ms-hand-evaluator
+      build:
+         context: ../cas-ms-hand-evaluator
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-hand-evaluator:latest
+      expose:
+         - 20007
+      ports:
+         - 20007:20007            
+      networks: 
+         - cas-network
+
+   cas-ms-hand-mapper:
+      depends_on: 
+         - logstash   
+      container_name: cas-ms-hand-mapper
+      build:
+         context: ../cas-ms-hand-mapper
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-hand-mapper:latest
+      expose:
+         - 20006
+      ports:
+         - 20006:20006            
+      networks: 
+         - cas-network
             
+   cas-ms-orchestration:
+      depends_on: 
+         - logstash   
+      container_name: cas-ms-orchestration
+      build:
+         context: ../cas-ms-orchestration
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-orchestration:latest
+      environment:
+         - CAS_MS_STORAGE_HOST=cas-ms-storage
+         - CAS_MS_STORAGE_PORT=20005
+         - CAS_MS_HAND_EVALUATOR_HOST=cas-ms-hand-evaluator
+         - CAS_MS_HAND_EVALUATOR_PORT=20007
+         - CAS_MS_HAND_MAPPER_HOST=cas-ms-hand-mapper
+         - CAS_MS_HAND_MAPPER_PORT=20006
+         - CAS_MS_FILE_PARSER_HOST=cas-ms-file-parser
+         - CAS_MS_FILE_PARSER_PORT=20004
+         - CAS_MS_ORCHESTRATION_PORT=20003
+      expose:
+         - 20003
+      ports:
+         - 20003:20003       
+      networks: 
+         - cas-network    
+
+networks:
+   cas-network:
+      name: cas-network
+      driver: bridge
+    
