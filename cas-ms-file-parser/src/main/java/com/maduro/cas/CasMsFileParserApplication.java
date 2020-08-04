@@ -11,11 +11,5 @@ public class CasMsFileParserApplication {
 		SpringApplication.run(CasMsFileParserApplication.class, args);
 	}
 
-//	@Bean
-//	ApplicationRunner applicationRunner(Environment environment) {
-//		return args -> {
-//			System.out.println("3--> " + environment.getProperty("cas.ms.storage.port", "liooooooooo"));
-//		};
-//	}
 	
 }
