@@ -1,4 +1,4 @@
-package pl.piomin.samples.discovery
+package com.maduro.cas
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
