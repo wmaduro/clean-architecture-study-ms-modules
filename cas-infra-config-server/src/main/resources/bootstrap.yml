@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cas-infra-discovery-server
+    name: cas-infra-config-server
   profiles:
     active: native #,vault #Enable for Vault backend
   cloud:
