@@ -10,14 +10,14 @@
 	
 		</encoder>
 	</appender>
-	<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-		<destination>logstash:5000</destination>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
-			<customFields>{"appname":"${appname}"}</customFields>
-		</encoder>
-	</appender> 
+<!-- 	<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender"> -->
+<!-- 		<destination>logstash:5000</destination> -->
+<!-- 		<encoder class="net.logstash.logback.encoder.LogstashEncoder"> -->
+<!-- 			<customFields>{"appname":"${appname}"}</customFields> -->
+<!-- 		</encoder> -->
+<!-- 	</appender>  -->
 	<root level="INFO">
 		<appender-ref ref="CONSOLE"/>
-		<appender-ref ref="LOGSTASH"/>
+<!-- 		<appender-ref ref="LOGSTASH"/> -->
 	</root>
 </configuration>
