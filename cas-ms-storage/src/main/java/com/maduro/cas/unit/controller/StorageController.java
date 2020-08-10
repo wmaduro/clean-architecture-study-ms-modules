@@ -3,6 +3,7 @@ package com.maduro.cas.unit.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,17 @@ import com.maduro.cas.unit.service.StorageService;
 @RequestMapping(path = "/storage")
 public class StorageController {
 
+//	@Value("${property1}")
+//	private String property1;
+
 	@Autowired
 	private StorageService storageService;
 
-	@PostMapping(consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE )
+	@PostMapping(consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public Long saveContent(@RequestBody byte[] content) {
 		return storageService.save(content);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		Optional<FileContent> oFileContent = storageService.findById(id);
@@ -35,5 +39,11 @@ public class StorageController {
 		}
 		return ResponseEntity.ok(oFileContent.get().getContent());
 	}
+
+//	@GetMapping
+//	public ResponseEntity<?> lixo() {
+//
+//		return ResponseEntity.ok("---------------- "+property1);
+//	}
 
 }
