@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
@@ -14,21 +15,16 @@ import com.maduro.cas.unit.orchestration.service.exception.StorageDTONullabilyEx
 
 public class FileParseNetwork extends BaseNetwork {
 	
-	public FileParseNetwork(ExternalServiceEnum externalServiceEnum) {
-		super(externalServiceEnum);
+	public FileParseNetwork(ExternalServiceEnum externalServiceEnum, Builder webClientBuilder) {
+		super(externalServiceEnum, webClientBuilder);
 	}
-
-	@Override
-	@Value(value = "${cas-ms.service.file-parser.port}")
-	public void setPort(String port) {
-		super.setPort(port);
-	}
-	
+		
 	@Override
 	@Value(value = "${cas-ms.service.file-parser.host}")
 	public void setHost(String host) {
 		super.setHost(host);
 	}
+
 
 	public FileParserDTO processFileParser(StorageDTO storageDTO) {
 		

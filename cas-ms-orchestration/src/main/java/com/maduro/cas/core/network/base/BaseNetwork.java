@@ -29,16 +29,19 @@ public abstract class BaseNetwork {
 	private String protocol="http";
 	@Setter
 	private String host;
-	@Setter
-	private String port;
+	
 	
 	protected ExternalServiceEnum externalServiceEnum;
+	
+	protected WebClient.Builder webClientBuilder;
 	
 	protected Function<ClientResponse, Mono<? extends Throwable>> functionHttpStausIsError;
 	protected Consumer<? super Throwable> onError;
 	
 
-	public BaseNetwork(ExternalServiceEnum externalServiceEnum) {
+	public BaseNetwork(ExternalServiceEnum externalServiceEnum, WebClient.Builder webClientBuilder) {
+		
+		this.webClientBuilder = webClientBuilder;
 		
 		this.functionHttpStausIsError = error -> {
 			throw new ExternalServiceHttpException(error.statusCode().toString(), externalServiceEnum);	};
@@ -61,9 +64,8 @@ public abstract class BaseNetwork {
 	
 		try {
 			T return_ = 
-				WebClient
-					.builder()
-					.baseUrl(new URL(protocol, host, Integer.parseInt(port), "").toString())
+				webClientBuilder
+					.baseUrl(new URL(protocol, host, "").toString())
 					.build()
 					.method(httpMethod)
 					.uri(path)
@@ -79,10 +81,10 @@ public abstract class BaseNetwork {
 			}
 			return Optional.of(return_);
 			
-		} catch (NumberFormatException e) {
-			throw new PortValueInvalidException("Invalid port value: "+port);
+//		} catch (NumberFormatException e) {
+//			throw new PortValueInvalidException("Invalid port value: "+port);
 		} catch (MalformedURLException e) {
-			throw new UrlParseException("Invalid URL: " + protocol + "," + host + "," + port);
+			throw new UrlParseException("Invalid URL: " + protocol + "," + host );
 		} 
 	}
 	

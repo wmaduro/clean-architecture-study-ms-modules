@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.maduro.cas.core.exception.base.enums.ExternalServiceEnum;
 import com.maduro.cas.core.network.base.BaseNetwork;
@@ -11,16 +12,10 @@ import com.maduro.cas.core.network.base.BaseNetwork;
 
 public class StorageNetwork extends BaseNetwork {
 	
-	public StorageNetwork(ExternalServiceEnum externalServiceEnum) {
-		super(externalServiceEnum);
+	public StorageNetwork(ExternalServiceEnum externalServiceEnum, Builder webClientBuilder) {
+		super(externalServiceEnum, webClientBuilder);
 	}
-
-	@Override
-	@Value(value = "${cas-ms.service.storage.port}")
-	public void setPort(String port) {
-		super.setPort(port);
-	}
-	
+		
 	@Override
 	@Value(value = "${cas-ms.service.storage.host}")
 	public void setHost(String host) {
