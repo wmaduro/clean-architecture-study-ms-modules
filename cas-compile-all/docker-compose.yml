@@ -5,40 +5,40 @@ services:
 # INFRASTRUCTURE - LOGSTASH 
 #####################################################################
 
-#    elasticsearch:
-#       image: elasticsearch:7.6.2
-#       container_name: elasticsearch
-#       ports:
-#          - 9200:9200
-#          - 9300:9300
-#       networks: 
-#          - cas-network
-#       environment:
-#          - discovery.type=single-node
-#          
-#    logstash:
-#       depends_on: 
-#          - elasticsearch
-#       image: docker.elastic.co/logstash/logstash:7.6.2
-#       container_name: logstash
-#       ports:
-#          - 5000:5000
-#       networks: 
-#          - cas-network
-#       volumes: 
-#          - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-# 
-#    kibana:
-#       depends_on: 
-#          - elasticsearch
-#       image: docker.elastic.co/kibana/kibana:7.6.2
-#       container_name: kibana
-#       ports:
-#          - 5601:5601
-#       networks: 
-#          - cas-network
-#       links:
-#          - elasticsearch
+   elasticsearch:
+      image: elasticsearch:7.6.2
+      container_name: elasticsearch
+      ports:
+         - 9200:9200
+         - 9300:9300
+      networks: 
+         - cas-network
+      environment:
+         - discovery.type=single-node
+         
+   logstash:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/logstash/logstash:7.6.2
+      container_name: logstash
+      ports:
+         - 5000:5000
+      networks: 
+         - cas-network
+      volumes: 
+         - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+
+   kibana:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/kibana/kibana:7.6.2
+      container_name: kibana
+      ports:
+         - 5601:5601
+      networks: 
+         - cas-network
+      links:
+         - elasticsearch
          
          
 #####################################################################  
@@ -82,24 +82,21 @@ services:
 #####################################################################
 
    cas-ms-storage:
-      depends_on: 
-         - logstash
-      container_name: cas-ms-storage
+#       container_name: cas-ms-storage
       build:
          context: ../cas-ms-storage
          dockerfile: Dockerfile
       image: wmaduro/cas-ms-storage:latest
       networks: 
          - cas-network
-      depends_on: 
+      depends_on:
+         - logstash
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server         
             
    cas-ms-file-parser:
-      depends_on: 
-         - logstash   
-      container_name: cas-ms-file-parser
+#       container_name: cas-ms-file-parser
       build:
          context: ../cas-ms-file-parser
          dockerfile: Dockerfile
@@ -109,14 +106,13 @@ services:
       networks: 
          - cas-network
       depends_on: 
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
                          
    cas-ms-hand-evaluator:
-      depends_on: 
-         - logstash   
-      container_name: cas-ms-hand-evaluator
+#       container_name: cas-ms-hand-evaluator
       build:
          context: ../cas-ms-hand-evaluator
          dockerfile: Dockerfile
@@ -124,14 +120,13 @@ services:
       networks: 
          - cas-network
       depends_on: 
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
           
    cas-ms-hand-mapper:
-      depends_on: 
-         - logstash   
-      container_name: cas-ms-hand-mapper
+#       container_name: cas-ms-hand-mapper
       build:
          context: ../cas-ms-hand-mapper
          dockerfile: Dockerfile
@@ -139,14 +134,13 @@ services:
       networks: 
          - cas-network
       depends_on: 
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
                       
    cas-ms-orchestration:
-      depends_on: 
-         - logstash   
-      container_name: cas-ms-orchestration
+#       container_name: cas-ms-orchestration
       build:
          context: ../cas-ms-orchestration
          dockerfile: Dockerfile
@@ -159,6 +153,7 @@ services:
       networks: 
          - cas-network    
       depends_on: 
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
