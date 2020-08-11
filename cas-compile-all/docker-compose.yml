@@ -1,44 +1,85 @@
 version: '3.5'
 services:
 
-############  INFRASTRUCTURE - LOGSTASH 
+#####################################################################  
+# INFRASTRUCTURE - LOGSTASH 
+#####################################################################
 
-   elasticsearch:
-      image: elasticsearch:7.6.2
-      container_name: elasticsearch
-      ports:
-         - 9200:9200
-         - 9300:9300
-      networks: 
-         - cas-network
-      environment:
-         - discovery.type=single-node
+#    elasticsearch:
+#       image: elasticsearch:7.6.2
+#       container_name: elasticsearch
+#       ports:
+#          - 9200:9200
+#          - 9300:9300
+#       networks: 
+#          - cas-network
+#       environment:
+#          - discovery.type=single-node
+#          
+#    logstash:
+#       depends_on: 
+#          - elasticsearch
+#       image: docker.elastic.co/logstash/logstash:7.6.2
+#       container_name: logstash
+#       ports:
+#          - 5000:5000
+#       networks: 
+#          - cas-network
+#       volumes: 
+#          - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+# 
+#    kibana:
+#       depends_on: 
+#          - elasticsearch
+#       image: docker.elastic.co/kibana/kibana:7.6.2
+#       container_name: kibana
+#       ports:
+#          - 5601:5601
+#       networks: 
+#          - cas-network
+#       links:
+#          - elasticsearch
          
-   logstash:
-      depends_on: 
-         - elasticsearch
-      image: docker.elastic.co/logstash/logstash:7.6.2
-      container_name: logstash
-      ports:
-         - 5000:5000
-      networks: 
-         - cas-network
-      volumes: 
-         - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+         
+#####################################################################  
+# INFRASTRUCTURE - DISCOVERY-SERVER 
+#####################################################################
 
-   kibana:
-      depends_on: 
-         - elasticsearch
-      image: docker.elastic.co/kibana/kibana:7.6.2
-      container_name: kibana
+   cas-infra-discovery-server:
+      container_name: cas-infra-discovery-server
+      build:
+         context: ../cas-infra-discovery-server
+         dockerfile: Dockerfile
+      image: wmaduro/cas-infra-discovery-server:latest
+      expose:
+         - 8761
       ports:
-         - 5601:5601
+         - 8761:8761
       networks: 
          - cas-network
+
+#####################################################################  
+# INFRASTRUCTURE - CONFIG-SERVER 
+#####################################################################
+
+   cas-infra-config-server:
+      container_name: cas-infra-config-server
+      build:
+         context: ../cas-infra-config-server
+         dockerfile: Dockerfile
+      image: wmaduro/cas-infra-config-server:latest
+      networks: 
+         - cas-network
+
+      depends_on: 
+         - cas-infra-discovery-server
       links:
-         - elasticsearch
+         - cas-infra-discovery-server
+         
 
-############  CAS-SERVICES      
+#####################################################################  
+#  CAS-SERVICES 
+#####################################################################
 
    cas-ms-storage:
       depends_on: 
@@ -48,12 +89,12 @@ services:
          context: ../cas-ms-storage
          dockerfile: Dockerfile
       image: wmaduro/cas-ms-storage:latest
-      expose:
-         - 20005
-      ports:
-         - 20005:20005
       networks: 
          - cas-network
+      depends_on: 
+         - cas-infra-discovery-server
+      links:
+         - cas-infra-discovery-server         
             
    cas-ms-file-parser:
       depends_on: 
@@ -65,14 +106,13 @@ services:
       image: wmaduro/cas-ms-file-parser:latest
       environment:
          - CAS_MS_STORAGE_HOST=cas-ms-storage
-         - CAS_MS_STORAGE_PORT=20005
-      expose:
-         - 20004
-      ports:
-         - 20004:20004
       networks: 
          - cas-network
-               
+      depends_on: 
+         - cas-infra-discovery-server
+      links:
+         - cas-infra-discovery-server 
+                         
    cas-ms-hand-evaluator:
       depends_on: 
          - logstash   
@@ -81,13 +121,13 @@ services:
          context: ../cas-ms-hand-evaluator
          dockerfile: Dockerfile
       image: wmaduro/cas-ms-hand-evaluator:latest
-      expose:
-         - 20007
-      ports:
-         - 20007:20007            
       networks: 
          - cas-network
-
+      depends_on: 
+         - cas-infra-discovery-server
+      links:
+         - cas-infra-discovery-server 
+          
    cas-ms-hand-mapper:
       depends_on: 
          - logstash   
@@ -96,13 +136,13 @@ services:
          context: ../cas-ms-hand-mapper
          dockerfile: Dockerfile
       image: wmaduro/cas-ms-hand-mapper:latest
-      expose:
-         - 20006
-      ports:
-         - 20006:20006            
       networks: 
          - cas-network
-            
+      depends_on: 
+         - cas-infra-discovery-server
+      links:
+         - cas-infra-discovery-server 
+                      
    cas-ms-orchestration:
       depends_on: 
          - logstash   
@@ -113,21 +153,20 @@ services:
       image: wmaduro/cas-ms-orchestration:latest
       environment:
          - CAS_MS_STORAGE_HOST=cas-ms-storage
-         - CAS_MS_STORAGE_PORT=20005
          - CAS_MS_HAND_EVALUATOR_HOST=cas-ms-hand-evaluator
-         - CAS_MS_HAND_EVALUATOR_PORT=20007
          - CAS_MS_HAND_MAPPER_HOST=cas-ms-hand-mapper
-         - CAS_MS_HAND_MAPPER_PORT=20006
          - CAS_MS_FILE_PARSER_HOST=cas-ms-file-parser
-         - CAS_MS_FILE_PARSER_PORT=20004
-         - CAS_MS_ORCHESTRATION_PORT=20003
-      expose:
-         - 20003
-      ports:
-         - 20003:20003       
       networks: 
          - cas-network    
-
+      depends_on: 
+         - cas-infra-discovery-server
+      links:
+         - cas-infra-discovery-server 
+      expose:
+         - 20009
+      ports:
+         - 20009:20009
+         
 networks:
    cas-network:
       name: cas-network

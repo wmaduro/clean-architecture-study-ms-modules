@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<springProperty scope="context" name="appname" source="spring.application.name"/>
-	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+	<springProperty scope="context" name="appname"
+		source="spring.application.name" />
+	<include
+		resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-
-   <pattern>%magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
-
-	
+			<pattern>%magenta([%thread]) %highlight(%-5level) %logger{36}.%M -
+				%msg%n</pattern>
 		</encoder>
 	</appender>
-<!-- 	<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender"> -->
-<!-- 		<destination>logstash:5000</destination> -->
-<!-- 		<encoder class="net.logstash.logback.encoder.LogstashEncoder"> -->
-<!-- 			<customFields>{"appname":"${appname}"}</customFields> -->
-<!-- 		</encoder> -->
-<!-- 	</appender>  -->
+
+	<appender name="LOGSTASH"
+		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>logstash:5000</destination>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<customFields>{"appname":"${appname}"}</customFields>
+		</encoder>
+	</appender>
 	<root level="INFO">
-		<appender-ref ref="CONSOLE"/>
-<!-- 		<appender-ref ref="LOGSTASH"/> -->
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="LOGSTASH"/>
 	</root>
 </configuration>

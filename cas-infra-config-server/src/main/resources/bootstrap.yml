@@ -12,3 +12,8 @@ spring:
 #          host: 192.168.99.100
 #          authentication: TOKEN
 #          token: spring-microservices-course
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://cas-infra-discovery-server:8761/eureka
