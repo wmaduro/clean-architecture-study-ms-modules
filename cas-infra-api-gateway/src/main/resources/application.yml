@@ -1,0 +1,30 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://cas-infra-discovery-server:8761/eureka
+server:
+  port: 8080
+      
+spring:
+  application:
+    name: cas-infra-api-gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: cas-ms-orchestration
+          uri: lb://cas-ms-orchestration
+          predicates:
+             - Path=/**
+
+management:
+  endpoints.web.exposure.include: '*'
+  endpoint:
+    health:
+      show-details: always
