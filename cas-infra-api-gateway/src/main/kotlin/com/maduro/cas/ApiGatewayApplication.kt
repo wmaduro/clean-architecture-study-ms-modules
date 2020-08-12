@@ -9,12 +9,7 @@ import reactor.core.publisher.Mono
 import java.time.Duration
 
 @SpringBootApplication
-class ApiGatewayApplication {
-
-	@Bean
-	fun keyResolver(): KeyResolver = KeyResolver { _ -> Mono.just("1") }
-
-}
+class ApiGatewayApplication 
 
 fun main(args: Array<String>) {
 	runApplication<ApiGatewayApplication>(*args)
