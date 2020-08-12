@@ -5,40 +5,40 @@ services:
 # INFRASTRUCTURE - LOGSTASH 
 #####################################################################
 
-#    elasticsearch:
-#       image: elasticsearch:7.6.2
-#       container_name: elasticsearch
-#       ports:
-#          - 9200:9200
-#          - 9300:9300
-#       networks: 
-#          - cas-network
-#       environment:
-#          - discovery.type=single-node
-#          
-#    logstash:
-#       depends_on: 
-#          - elasticsearch
-#       image: docker.elastic.co/logstash/logstash:7.6.2
-#       container_name: logstash
-#       ports:
-#          - 5000:5000
-#       networks: 
-#          - cas-network
-#       volumes: 
-#          - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-# 
-#    kibana:
-#       depends_on: 
-#          - elasticsearch
-#       image: docker.elastic.co/kibana/kibana:7.6.2
-#       container_name: kibana
-#       ports:
-#          - 5601:5601
-#       networks: 
-#          - cas-network
-#       links:
-#          - elasticsearch
+   elasticsearch:
+      image: elasticsearch:7.6.2
+      container_name: elasticsearch
+      ports:
+         - 9200:9200
+         - 9300:9300
+      networks: 
+         - cas-network
+      environment:
+         - discovery.type=single-node
+         
+   logstash:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/logstash/logstash:7.6.2
+      container_name: logstash
+      ports:
+         - 5000:5000
+      networks: 
+         - cas-network
+      volumes: 
+         - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+
+   kibana:
+      depends_on: 
+         - elasticsearch
+      image: docker.elastic.co/kibana/kibana:7.6.2
+      container_name: kibana
+      ports:
+         - 5601:5601
+      networks: 
+         - cas-network
+      links:
+         - elasticsearch
          
 
 #####################################################################  
@@ -113,7 +113,7 @@ services:
       networks: 
          - cas-network
       depends_on:
-#          - logstash
+         - logstash
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server         
@@ -129,7 +129,7 @@ services:
       networks: 
          - cas-network
       depends_on: 
-#          - logstash   
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
@@ -143,7 +143,7 @@ services:
       networks: 
          - cas-network
       depends_on: 
-#          - logstash   
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
@@ -157,7 +157,7 @@ services:
       networks: 
          - cas-network
       depends_on: 
-         #- logstash   
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
@@ -176,14 +176,10 @@ services:
       networks: 
          - cas-network    
       depends_on: 
-#          - logstash   
+         - logstash   
          - cas-infra-discovery-server
       links:
          - cas-infra-discovery-server 
-#       expose:
-#          - 9876
-#       ports:
-#          - 9876:9876
          
 networks:
    cas-network:
