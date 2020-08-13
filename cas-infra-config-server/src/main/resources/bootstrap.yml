@@ -8,10 +8,6 @@ spring:
       server:
         native:
           searchLocations: classpath:/config-repo
-#        vault: #Enable for Vault backend
-#          host: 192.168.99.100
-#          authentication: TOKEN
-#          token: spring-microservices-course
 
 eureka:
   client:

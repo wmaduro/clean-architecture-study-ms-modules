@@ -29,6 +29,8 @@ public abstract class BaseNetwork {
 	private String protocol="http";
 	@Setter
 	private String host;
+	@Setter
+	private Integer port;
 	
 	
 	protected ExternalServiceEnum externalServiceEnum;
@@ -63,9 +65,14 @@ public abstract class BaseNetwork {
 		}
 	
 		try {
+			URL url =  new URL(protocol, host, port, "");
+			if (port == 0) {
+				url =  new URL(protocol, host, "");
+			}
+			
 			T return_ = 
 				webClientBuilder
-					.baseUrl(new URL(protocol, host, "").toString())
+					.baseUrl(url.toString())
 					.build()
 					.method(httpMethod)
 					.uri(path)

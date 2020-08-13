@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -18,6 +19,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
 
+@Profile("!test")
 @Configuration
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class BaseNetworkFactoryConfig {
@@ -26,7 +28,6 @@ public class BaseNetworkFactoryConfig {
 	public StorageNetwork storageNetwork() {
 		return new StorageNetwork(ExternalServiceEnum.STORAGE, webClientBuilder());
 	}
-	
 	
 	@Bean
 	@LoadBalanced
@@ -44,4 +45,5 @@ public class BaseNetworkFactoryConfig {
 		
         return WebClient.builder().clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)));
 	}
+
 }

@@ -13,12 +13,12 @@
 	<artifactId>cas-ms-file-parser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cas-ms-file-parser</name>
-	<description>Demo project for Spring Boot</description>
-
+	
 	<properties>
 		<java.version>13</java.version>
 		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
 		<mockserver-netty.version>3.10.8</mockserver-netty.version>
+		<org.hamcrest.version>1.3</org.hamcrest.version>
 	</properties>
 
 	<dependencies>
@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
+			<version>${org.hamcrest.version}</version>
 			<scope>test</scope>
 		</dependency>
 

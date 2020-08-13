@@ -19,6 +19,12 @@ public class HandMapperNetwork extends BaseNetwork {
 	}
 	
 	@Override
+	@Value(value = "${cas-ms.service.hand-mapper.port}")
+	public void setPort(Integer port) {
+		super.setPort(port);
+	}
+	
+	@Override
 	@Value(value = "${cas-ms.service.hand-mapper.host}")
 	public void setHost(String host) {
 		super.setHost(host);

@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-  	<module>../cas-ms-file-parser</module>
+<!--   	<module>../cas-ms-file-parser</module> -->
   	<module>../cas-ms-hand-evaluator</module>
   	<module>../cas-ms-hand-mapper</module>
   	<module>../cas-ms-storage</module>

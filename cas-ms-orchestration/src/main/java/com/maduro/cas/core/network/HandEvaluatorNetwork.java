@@ -20,6 +20,12 @@ public class HandEvaluatorNetwork extends BaseNetwork {
 	}
 	
 	@Override
+	@Value(value = "${cas-ms.service.hand-evaluator.port}")
+	public void setPort(Integer port) {
+		super.setPort(port);
+	}
+	
+	@Override
 	@Value(value = "${cas-ms.service.hand-evaluator.host}")
 	public void setHost(String host) {
 		super.setHost(host);
