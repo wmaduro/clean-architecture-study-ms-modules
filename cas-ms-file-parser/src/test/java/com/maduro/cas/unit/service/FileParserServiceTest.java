@@ -12,7 +12,6 @@ import com.maduro.cas.unit.dto.StorageDTO;
 class FileParserServiceTest {
 	
 	@Test
-	
 	void must_ProcessStorageDTO_Successfuly() throws Exception {
 
 		final String data = "\"game\",\"hand\",\"hand_position\",\"user_name\",\"card_sequence\",\"value_won\",\"board\",\"all_in_action_street\",\"action_pre_flop\",\"value_action_pre_flop\",\"action_flop\",\"value_action_flop\",\"action_turn\",\"value_action_turn\",\"action_river\",\"value_action_river\",\"bb\",\"street_ended\",\"show_down\",\"level\"\n" + 
