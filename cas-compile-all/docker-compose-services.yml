@@ -1,0 +1,99 @@
+version: '3.5'
+services:
+
+#####################################################################  
+#  CAS-SERVICES 
+#####################################################################
+
+   cas-ms-storage:
+      container_name: cas-ms-storage
+      build:
+         context: ../cas-ms-storage
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-storage:latest
+      networks: 
+         - cas-network
+#       depends_on:
+#          - cas-infra-config-server
+#           logstash
+#          - cas-infra-discovery-server
+#       links:
+#          - cas-infra-config-server
+#          - cas-infra-discovery-server         
+            
+   cas-ms-file-parser:
+      container_name: cas-ms-file-parser
+      build:
+         context: ../cas-ms-file-parser
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-file-parser:latest
+      environment:
+         - CAS_MS_STORAGE_HOST=cas-ms-storage
+      networks: 
+         - cas-network
+#       depends_on: 
+#          - cas-infra-config-server
+#          - logstash   
+#          - cas-infra-discovery-server
+#       links:
+#          - cas-infra-config-server
+#          - cas-infra-discovery-server 
+                          
+   cas-ms-hand-evaluator:
+      container_name: cas-ms-hand-evaluator
+      build:
+         context: ../cas-ms-hand-evaluator
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-hand-evaluator:latest
+      networks: 
+         - cas-network
+#       depends_on: 
+#          - cas-infra-config-server
+#          - logstash   
+#          - cas-infra-discovery-server
+#       links:
+#          - cas-infra-config-server
+#          - cas-infra-discovery-server 
+          
+   cas-ms-hand-mapper:
+      container_name: cas-ms-hand-mapper
+      build:
+         context: ../cas-ms-hand-mapper
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-hand-mapper:latest
+      networks: 
+         - cas-network
+#       depends_on: 
+#          - cas-infra-config-server
+#          - logstash   
+#          - cas-infra-discovery-server
+#       links:
+#          - cas-infra-config-server
+#          - cas-infra-discovery-server 
+                      
+   cas-ms-orchestration:
+      container_name: cas-ms-orchestration
+      build:
+         context: ../cas-ms-orchestration
+         dockerfile: Dockerfile
+      image: wmaduro/cas-ms-orchestration:latest
+      environment:
+         - CAS_MS_STORAGE_HOST=cas-ms-storage
+         - CAS_MS_HAND_EVALUATOR_HOST=cas-ms-hand-evaluator
+         - CAS_MS_HAND_MAPPER_HOST=cas-ms-hand-mapper
+         - CAS_MS_FILE_PARSER_HOST=cas-ms-file-parser
+      networks: 
+         - cas-network    
+#       depends_on: 
+#          - cas-infra-config-server
+#          - logstash   
+#          - cas-infra-discovery-server
+#       links:
+#          - cas-infra-config-server
+#          - cas-infra-discovery-server 
+         
+networks:
+   cas-network:
+      name: cas-network
+      driver: bridge
+    

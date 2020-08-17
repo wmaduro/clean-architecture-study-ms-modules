@@ -1,2 +1,17 @@
-server.port: 0
-property1: 'GENERIC - property1'
+server:
+  port: 0 
+
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  outputansi:
+    enabled: ALWAYS
+  cloud:
+    loadbalancer:
+      cache:
+        ttl: 1s
+      ribbon:
+        enabled: false
+
+

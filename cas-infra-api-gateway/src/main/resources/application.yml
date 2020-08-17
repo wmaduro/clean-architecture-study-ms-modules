@@ -18,13 +18,21 @@ spring:
           enabled: true
           lowerCaseServiceId: true
       routes:
-        - id: cas-ms-orchestration
+        - id: cas-ms-orchestration_route
           uri: lb://cas-ms-orchestration
           predicates:
-             - Path=/**
+          - Path=/orchestration/**
+        - id: cas-ms-orchestration_route2
+          uri: lb://cas-ms-orchestration
+          predicates:
+          - Path=/result/**       
+             
 
 management:
-  endpoints.web.exposure.include: '*'
+  endpoints:
+    web:
+      exposure:
+        include: '*'
   endpoint:
     health:
       show-details: always
