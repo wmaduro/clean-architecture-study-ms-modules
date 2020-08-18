@@ -75,7 +75,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
      ```sh
     git clone -b master-episodeIV https://github.com/wmaduro/clean-architecture-study-ms-modules.git
     ```
-- ### Jump into the project folder: 
+- ### Jump into the project folder 
     ```sh
     cd clean-architecture-study-ms-modules/cas-compile-all/
     ```    
