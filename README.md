@@ -122,7 +122,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
 
     - ### Get outcome (Result)
         ```sh
-         curl --location --request GET 'http://<SERVE                      R_IP>:8080/result/<PROCESS_ID>'
+         curl --location --request GET 'http://<SERVER_IP>:8080/result/<PROCESS_ID>'
         ```  
         You must replace:
         * **<SERVER_IP>** - If your deploy was done in a different machine, please use its IP. Othewise, use localhost.
