@@ -133,7 +133,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
 - ### Configure Logstash/Elasticsearch/Kibana (Infrastructure Services)
     After the complete startup of all services, we must configure Kibana to access the services's logs. The "index pattern" for all services is **caslog**.
 
-- ### Stopping and Removing the Environment
+## How to stop and remove images/containers
     - ### If you wish to stop and remove all installed containers:
         ```sh
         sudo docker-compose -f docker-compose-services.yml down
