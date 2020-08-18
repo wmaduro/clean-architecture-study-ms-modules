@@ -11,7 +11,7 @@
 - Episode II: [Increasing Decoupling (Event Queue)][eps-II]
 - Episode III: [Increasing Decoupling, Testability and Scalability (SpringBoot and Docker)][eps-III]
 - **Episode IV: High Scalability (Spring Cloud MicroServices) - (WE ARE HERE...)**
-
+- Episode V: Spring Cloud MicroServices (Event Driven) - (Coming soon...)
 
 
 # Episode IV: High Scalability (SpringBoot Cloud MicroServices)
