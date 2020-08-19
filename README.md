@@ -115,7 +115,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
         curl --location --request POST 'http://<SERVER_IP>:8080/orchestration' --form 'file=@<PATH_OF_THE_FILE_all-in.csv>'
         ```  
         You must replace:
-       * **<SERVER_IP>** - If your deploy was done in a different machine, please use its IP. Othewise, use localhost.
+       * **<SERVER_IP>** - If your deployment was done in a different machine, please use its IP. Othewise, use localhost.
         * **<PATH_OF_THE_FILE_all-in.csv>** - The "all-in.csv" file will be located in the "sample-files" folder that is inside the project.
     
         Ex: curl --location --request POST 'http://localhost:8080/orchestration' --form 'file=@/home/maduro/clean-architecture-study-ms-modules/sample-files/all-in.csv'
@@ -125,7 +125,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
          curl --location --request GET 'http://<SERVER_IP>:8080/result/<PROCESS_ID>'
         ```  
         You must replace:
-        * **<SERVER_IP>** - If your deploy was done in a different machine, please use its IP. Othewise, use localhost.
+        * **<SERVER_IP>** - If your deployment was done in a different machine, please use its IP. Othewise, use localhost.
         * **<PROCESS_ID>** - Replace the "PROCESS_ID" by the "id" returned in the step 7 response.
 
         Ex: curl --location --request GET 'http://**localhost**:8080/result/**2**'
