@@ -68,7 +68,7 @@ In this episode, we keep the same level of tests implemented in the Episode III.
 - **JDK 14**
 - **DOCKER-COMPOSE**
 
-**IMPORTANT NOTE:** You will need to have at least 5.5Gb of free RAM memory to run all the services of this tutorial. **So, to avoid out of memory crash, do not start the whole infrastructure if you do not fullfill this requirement.** 
+**IMPORTANT NOTE:** You will need at least 5.5Gb of free RAM memory to run all the services of this tutorial. **So, to avoid out of memory crash, do not start the whole infrastructure if you do not fullfill this requirement.** 
 
 ### Step by Step (LINUX)
 - ### Download from GIT
