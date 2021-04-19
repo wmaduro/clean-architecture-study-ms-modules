@@ -112,13 +112,13 @@ In this episode, we keep the same level of tests implemented in the Episode III.
 - ### Test Endpoints (Api Gateway)
     - ### Post File (Orchestration)
         ```sh
-        curl --location --request POST 'http://<SERVER_IP>:8080/orchestration' --form 'file=@<PATH_OF_THE_FILE_all-in.csv>'
+        curl --location --request POST 'http://<SERVER_IP>:8080/orchestration' --form 'file=@<PATH_OF_THE_FILE_all-in.csv>' -H 'Expect:'
         ```  
         You must replace:
        * **<SERVER_IP>** - If your deployment was done in a different machine, please use its IP. Othewise, use localhost.
         * **<PATH_OF_THE_FILE_all-in.csv>** - The "all-in.csv" file will be located in the "sample-files" folder that is inside the project.
     
-        Ex: curl --location --request POST 'http://localhost:8080/orchestration' --form 'file=@/home/maduro/clean-architecture-study-ms-modules/sample-files/all-in.csv'
+        Ex: curl --location --request POST 'http://localhost:8080/orchestration' --form 'file=@/home/maduro/clean-architecture-study-ms-modules/sample-files/all-in.csv'  -H 'Expect:'
 
     - ### Get outcome (Result)
         ```sh
