@@ -33,7 +33,7 @@ If you are not familiar with the problem's scope, please, get back to the [Episo
         Implementation of Spring Cloud Configuration Service.
     - ### cas-infra-discovery-server
         Implementation of Spring Cloud Eureka Service.
-- ### Logstash        
+- ### ELK - Logs        
     - ### Logstatsh / Elasticsearch / Kibana
         Services responsible for the log's management.                      
     
